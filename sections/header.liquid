@@ -1,0 +1,31 @@
+<header class="site-header">
+  <div class="page-width">
+    <div class="header__content">
+      <div class="header__logo">
+        {% if settings.logo != blank %}
+          <img src="{{ settings.logo | image_url }}" alt="{{ shop.name }}">
+        {% else %}
+          <span class="h1">{{ shop.name }}</span>
+        {% endif %}
+      </div>
+      <nav class="header__nav">
+        {% for link in linklists.main-menu.links %}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    }
+  ]
+}
+{% endschema %}

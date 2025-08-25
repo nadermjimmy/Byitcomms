@@ -1,34 +1,42 @@
 <!DOCTYPE html>
 <html lang="{{ request.locale.iso_code }}">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="">
-  <link rel="canonical" href="{{ canonical_url }}">
-  
-  <title>{{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
 
-  {% if page_description %}
-    <meta name="description" content="{{ page_description | escape }}">
-  {% endif %}
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
 
-  {{ 'base.css' | asset_url | stylesheet_tag }}
-  {{ 'theme.css' | asset_url | stylesheet_tag }}
-  {{ 'theme.js' | asset_url | script_tag }}
-  {{ 'global.js' | asset_url | script_tag }}
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
 
-  {{ content_for_header }}
-</head>
+    {% render 'meta-tags' %}
 
-<body class="gradient{% if template.name == 'index' %} homepage{% endif %}">
-  {% section 'announcement-bar' %}
-  {% section 'header' %}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'application.js' | asset_url | script_tag }}
 
-  <main role="main" id="MainContent">
-    {{ content_for_layout }}
-  </main>
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+  </head>
 
-  {% section 'footer' %}
-</body>
+  <body>
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ "accessibility.skip_to_content" | t }}
+    </a>
+
+    {% section 'header' %}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+  </body>
 </html>

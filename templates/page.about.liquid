@@ -1,0 +1,310 @@
+{% comment %}
+  About Page Template
+{% endcomment %}
+
+<div class="about-page" data-section-id="about-{{ page.id }}" data-section-type="about">
+  <div class="page-width">
+    
+    {% comment %} Page Header {% endcomment %}
+    <header class="page-header">
+      <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+        <a href="{{ routes.root_url }}" class="breadcrumb__link">{{ 'general.breadcrumbs.home' | t }}</a>
+        <span class="breadcrumb__separator">
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none">
+            <path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="breadcrumb__text">{{ page.title }}</span>
+      </nav>
+      
+      <h1 class="page-header__title">{{ page.title }}</h1>
+      {% if page.content != blank %}
+        <div class="page-header__content rte">
+          {{ page.content }}
+        </div>
+      {% endif %}
+    </header>
+
+    {% comment %} About Hero Section {% endcomment %}
+    <section class="about-hero">
+      <div class="about-hero__content">
+        <div class="about-hero__text">
+          <h2 class="about-hero__title">{{ 'about.hero.title' | t }}</h2>
+          <p class="about-hero__subtitle">{{ 'about.hero.subtitle' | t }}</p>
+          <div class="about-hero__description">
+            <p>{{ 'about.hero.description' | t }}</p>
+          </div>
+        </div>
+        <div class="about-hero__image">
+          <div class="about-hero__image-placeholder">
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+              <path d="M15 105h90M15 105V45l45-30 45 30v60M15 105h90M45 105V60h30v45" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Mission & Vision {% endcomment %}
+    <section class="about-mission">
+      <div class="about-mission__grid">
+        <div class="about-mission__item">
+          <div class="about-mission__icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4 4 12.954 4 24s8.954 20 20 20z" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 24l6 6 12-12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="about-mission__title">{{ 'about.mission.title' | t }}</h3>
+          <p class="about-mission__text">{{ 'about.mission.text' | t }}</p>
+        </div>
+        
+        <div class="about-mission__item">
+          <div class="about-mission__icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 4l6 18h18l-14.5 10.5L40 50 24 36 8 50l6.5-17.5L0 22h18L24 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="about-mission__title">{{ 'about.vision.title' | t }}</h3>
+          <p class="about-mission__text">{{ 'about.vision.text' | t }}</p>
+        </div>
+        
+        <div class="about-mission__item">
+          <div class="about-mission__icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M36 8H12a4 4 0 0 0-4 4v24a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4V12a4 4 0 0 0-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 18v12M28 18v12M16 26h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="about-mission__title">{{ 'about.values.title' | t }}</h3>
+          <p class="about-mission__text">{{ 'about.values.text' | t }}</p>
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Statistics {% endcomment %}
+    <section class="about-stats">
+      <h2 class="about-stats__title">{{ 'about.stats.title' | t }}</h2>
+      <div class="about-stats__grid">
+        <div class="about-stats__item">
+          <div class="about-stats__number">{{ 'about.stats.properties_number' | t }}</div>
+          <div class="about-stats__label">{{ 'about.stats.properties_label' | t }}</div>
+        </div>
+        <div class="about-stats__item">
+          <div class="about-stats__number">{{ 'about.stats.compounds_number' | t }}</div>
+          <div class="about-stats__label">{{ 'about.stats.compounds_label' | t }}</div>
+        </div>
+        <div class="about-stats__item">
+          <div class="about-stats__number">{{ 'about.stats.customers_number' | t }}</div>
+          <div class="about-stats__label">{{ 'about.stats.customers_label' | t }}</div>
+        </div>
+        <div class="about-stats__item">
+          <div class="about-stats__number">{{ 'about.stats.agents_number' | t }}</div>
+          <div class="about-stats__label">{{ 'about.stats.agents_label' | t }}</div>
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Our Story {% endcomment %}
+    <section class="about-story">
+      <div class="about-story__content">
+        <div class="about-story__text">
+          <h2 class="about-story__title">{{ 'about.story.title' | t }}</h2>
+          <div class="about-story__content-text">
+            <p>{{ 'about.story.paragraph_1' | t }}</p>
+            <p>{{ 'about.story.paragraph_2' | t }}</p>
+            <p>{{ 'about.story.paragraph_3' | t }}</p>
+          </div>
+        </div>
+        <div class="about-story__timeline">
+          <div class="about-story__timeline-item">
+            <div class="about-story__timeline-year">{{ 'about.timeline.year_1' | t }}</div>
+            <div class="about-story__timeline-text">{{ 'about.timeline.event_1' | t }}</div>
+          </div>
+          <div class="about-story__timeline-item">
+            <div class="about-story__timeline-year">{{ 'about.timeline.year_2' | t }}</div>
+            <div class="about-story__timeline-text">{{ 'about.timeline.event_2' | t }}</div>
+          </div>
+          <div class="about-story__timeline-item">
+            <div class="about-story__timeline-year">{{ 'about.timeline.year_3' | t }}</div>
+            <div class="about-story__timeline-text">{{ 'about.timeline.event_3' | t }}</div>
+          </div>
+          <div class="about-story__timeline-item">
+            <div class="about-story__timeline-year">{{ 'about.timeline.year_4' | t }}</div>
+            <div class="about-story__timeline-text">{{ 'about.timeline.event_4' | t }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Team Section {% endcomment %}
+    <section class="about-team">
+      <div class="about-team__header">
+        <h2 class="about-team__title">{{ 'about.team.title' | t }}</h2>
+        <p class="about-team__subtitle">{{ 'about.team.subtitle' | t }}</p>
+      </div>
+      <div class="about-team__grid">
+        <div class="about-team__member">
+          <div class="about-team__member-image">
+            <div class="about-team__member-placeholder">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="30" r="12" stroke="currentColor" stroke-width="2"/>
+                <path d="M20 70v-8a12 12 0 0 1 12-12h16a12 12 0 0 1 12 12v8" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="about-team__member-name">{{ 'about.team.ceo_name' | t }}</h3>
+          <p class="about-team__member-role">{{ 'about.team.ceo_role' | t }}</p>
+          <p class="about-team__member-bio">{{ 'about.team.ceo_bio' | t }}</p>
+        </div>
+        
+        <div class="about-team__member">
+          <div class="about-team__member-image">
+            <div class="about-team__member-placeholder">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="30" r="12" stroke="currentColor" stroke-width="2"/>
+                <path d="M20 70v-8a12 12 0 0 1 12-12h16a12 12 0 0 1 12 12v8" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="about-team__member-name">{{ 'about.team.cto_name' | t }}</h3>
+          <p class="about-team__member-role">{{ 'about.team.cto_role' | t }}</p>
+          <p class="about-team__member-bio">{{ 'about.team.cto_bio' | t }}</p>
+        </div>
+        
+        <div class="about-team__member">
+          <div class="about-team__member-image">
+            <div class="about-team__member-placeholder">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="30" r="12" stroke="currentColor" stroke-width="2"/>
+                <path d="M20 70v-8a12 12 0 0 1 12-12h16a12 12 0 0 1 12 12v8" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="about-team__member-name">{{ 'about.team.head_sales_name' | t }}</h3>
+          <p class="about-team__member-role">{{ 'about.team.head_sales_role' | t }}</p>
+          <p class="about-team__member-bio">{{ 'about.team.head_sales_bio' | t }}</p>
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Why Choose Us {% endcomment %}
+    <section class="about-why-choose">
+      <div class="about-why-choose__header">
+        <h2 class="about-why-choose__title">{{ 'about.why_choose.title' | t }}</h2>
+        <p class="about-why-choose__subtitle">{{ 'about.why_choose.subtitle' | t }}</p>
+      </div>
+      <div class="about-why-choose__grid">
+        <div class="about-why-choose__item">
+          <div class="about-why-choose__icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 2L31.09 16.26L47 18.18L35.5 29.74L38.18 45.82L24 38.77L9.82 45.82L12.5 29.74L1 18.18L16.91 16.26L24 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="about-why-choose__item-title">{{ 'about.why_choose.expertise_title' | t }}</h3>
+          <p class="about-why-choose__item-text">{{ 'about.why_choose.expertise_text' | t }}</p>
+        </div>
+        
+        <div class="about-why-choose__item">
+          <div class="about-why-choose__icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <rect x="6" y="6" width="36" height="36" rx="6" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 22l6 6 12-12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="about-why-choose__item-title">{{ 'about.why_choose.trust_title' | t }}</h3>
+          <p class="about-why-choose__item-text">{{ 'about.why_choose.trust_text' | t }}</p>
+        </div>
+        
+        <div class="about-why-choose__item">
+          <div class="about-why-choose__icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2"/>
+              <path d="M24 8v16l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="about-why-choose__item-title">{{ 'about.why_choose.support_title' | t }}</h3>
+          <p class="about-why-choose__item-text">{{ 'about.why_choose.support_text' | t }}</p>
+        </div>
+        
+        <div class="about-why-choose__item">
+          <div class="about-why-choose__icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 4v20l12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="about-why-choose__item-title">{{ 'about.why_choose.innovation_title' | t }}</h3>
+          <p class="about-why-choose__item-text">{{ 'about.why_choose.innovation_text' | t }}</p>
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Call to Action {% endcomment %}
+    <section class="about-cta">
+      <div class="about-cta__content">
+        <h2 class="about-cta__title">{{ 'about.cta.title' | t }}</h2>
+        <p class="about-cta__text">{{ 'about.cta.text' | t }}</p>
+        <div class="about-cta__actions">
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+            {{ 'about.cta.browse_properties' | t }}
+          </a>
+          <a href="/pages/contact" class="btn btn--outline">
+            {{ 'about.cta.contact_us' | t }}
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animate numbers when they come into view
+    const observerOptions = {
+      threshold: 0.5,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const numberElement = entry.target;
+          const finalNumber = numberElement.textContent.replace(/[^\d]/g, '');
+          
+          if (finalNumber) {
+            animateNumber(numberElement, parseInt(finalNumber));
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe all stat numbers
+    const statNumbers = document.querySelectorAll('.about-stats__number');
+    statNumbers.forEach(number => {
+      observer.observe(number);
+    });
+
+    function animateNumber(element, target) {
+      const duration = 2000; // 2 seconds
+      const increment = target / (duration / 16); // 60fps
+      let current = 0;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        
+        // Format the number with commas and preserve original formatting
+        const originalText = element.textContent;
+        const numberPart = Math.floor(current);
+        const suffix = originalText.replace(/[\d,]/g, '');
+        
+        element.textContent = numberPart.toLocaleString() + suffix;
+      }, 16);
+    }
+  });
+</script>

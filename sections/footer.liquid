@@ -1,7 +1,186 @@
-<footer class="site-footer">
-  <div class="page-width">
-    <div class="footer__content">
-      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+{% comment %}
+  Footer section for Nawy-inspired real estate theme
+{% endcomment %}
+
+<footer class="site-footer" data-section-id="{{ section.id }}" data-section-type="footer">
+  <div class="footer__main">
+    <div class="page-width">
+      <div class="footer__content">
+        
+        {% comment %} Footer Logo and Description {% endcomment %}
+        <div class="footer__section footer__section--brand">
+          <div class="footer__logo">
+            {% if settings.logo != blank %}
+              <img 
+                src="{{ settings.logo | image_url: width: settings.logo_width }}" 
+                alt="{{ shop.name | escape }}"
+                width="{{ settings.logo_width }}"
+                height="auto"
+                class="footer__logo-img"
+              >
+            {% else %}
+              <span class="footer__logo-text">{{ shop.name }}</span>
+            {% endif %}
+          </div>
+          
+          {% if settings.footer_text != blank %}
+            <div class="footer__description rte">
+              {{ settings.footer_text }}
+            </div>
+          {% endif %}
+          
+          {% comment %} Social Media Links {% endcomment %}
+          <div class="footer__social">
+            <h4 class="footer__social-title">{{ 'footer.follow_us' | t }}</h4>
+            <div class="footer__social-links">
+              {% if section.settings.facebook_url != blank %}
+                <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="{{ 'footer.facebook' | t }}">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M18.896 0H1.104C.494 0 0 .494 0 1.104v17.793C0 19.506.494 20 1.104 20h9.58v-7.745H8.076V9.237h2.606V7.01c0-2.583 1.578-3.99 3.883-3.99 1.104 0 2.052.082 2.329.119v2.7l-1.598.001c-1.254 0-1.496.597-1.496 1.47v1.928h2.989l-.39 3.018h-2.6V20h5.098c.608 0 1.102-.494 1.102-1.104V1.104C20 .494 19.506 0 18.896 0z"/>
+                  </svg>
+                </a>
+              {% endif %}
+              
+              {% if section.settings.instagram_url != blank %}
+                <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="{{ 'footer.instagram' | t }}">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 1.8c2.67 0 2.987.01 4.042.059 2.71.123 3.976 1.409 4.099 4.099.048 1.054.057 1.37.057 4.042 0 2.672-.01 2.988-.057 4.042-.123 2.687-1.387 3.975-4.1 4.099-1.054.048-1.37.058-4.041.058-2.67 0-2.987-.01-4.04-.058-2.717-.124-3.977-1.416-4.1-4.1-.048-1.054-.058-1.37-.058-4.041 0-2.67.01-2.986.058-4.04.124-2.69 1.387-3.977 4.1-4.1 1.054-.048 1.37-.058 4.04-.058zM10 0C7.284 0 6.944.012 5.877.06 2.246.227.227 2.242.061 5.877.012 6.944 0 7.284 0 10s.012 3.057.06 4.123c.167 3.632 2.182 5.65 5.817 5.817 1.067.048 1.407.06 4.123.06s3.057-.012 4.123-.06c3.629-.167 5.652-2.182 5.816-5.817.05-1.066.061-1.407.061-4.123s-.012-3.056-.06-4.122C19.773 2.249 17.76.228 14.123.061 13.056.012 12.716 0 10 0zm0 4.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 8.468a3.333 3.333 0 110-6.666 3.333 3.333 0 010 6.666zm5.338-9.87a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/>
+                  </svg>
+                </a>
+              {% endif %}
+              
+              {% if section.settings.linkedin_url != blank %}
+                <a href="{{ section.settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="{{ 'footer.linkedin' | t }}">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M18.335 18.339H15.67v-4.177c0-.996-.02-2.278-1.39-2.278-1.389 0-1.601 1.084-1.601 2.205v4.25h-2.666V9.75h2.56v1.17h.035c.358-.674 1.228-1.387 2.528-1.387 2.7 0 3.2 1.778 3.2 4.091v4.715zM4.943 8.57c-.857 0-1.549-.694-1.549-1.548a1.548 1.548 0 111.549 1.548zm1.338 9.769H3.605V9.75h2.676v8.589zM19.67 0H.329C.146 0 0 .154 0 .329v19.341C0 19.846.154 20 .329 20h19.341c.176 0 .329-.154.329-.329V.329C20 .154 19.846 0 19.67 0z"/>
+                  </svg>
+                </a>
+              {% endif %}
+              
+              {% if section.settings.youtube_url != blank %}
+                <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="{{ 'footer.youtube' | t }}">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M19.615 6.24s-.193-1.364-.79-1.96c-.755-.792-1.603-.795-1.992-.841C14.295 3.25 10.005 3.25 10.005 3.25s-4.29 0-6.828.189c-.389.046-1.237.049-1.992.841-.597.596-.79 1.96-.79 1.96S.2 7.83.2 9.42v1.489c0 1.59.195 3.18.195 3.18s.193 1.364.79 1.96c.755.792 1.746.767 2.188.85 1.588.152 6.632.199 6.632.199s4.295-.006 6.833-.195c.389-.046 1.237-.049 1.992-.841.597-.596.79-1.96.79-1.96s.195-1.59.195-3.18V9.42c0-1.59-.195-3.18-.195-3.18zM8.08 12.59V6.862l5.434 2.873L8.08 12.59z"/>
+                  </svg>
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        {% comment %} Quick Links {% endcomment %}
+        <div class="footer__section">
+          <h4 class="footer__section-title">{{ 'footer.quick_links' | t }}</h4>
+          <ul class="footer__nav">
+            <li class="footer__nav-item">
+              <a href="{{ routes.root_url }}" class="footer__nav-link">{{ 'navigation.home' | t }}</a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="{{ routes.search_url }}" class="footer__nav-link">{{ 'navigation.search' | t }}</a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="/pages/about" class="footer__nav-link">{{ 'navigation.about' | t }}</a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="/pages/contact" class="footer__nav-link">{{ 'navigation.contact' | t }}</a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="{{ blog.url }}" class="footer__nav-link">{{ 'navigation.blog' | t }}</a>
+            </li>
+          </ul>
+        </div>
+
+        {% comment %} Services {% endcomment %}
+        <div class="footer__section">
+          <h4 class="footer__section-title">{{ 'footer.services' | t }}</h4>
+          <ul class="footer__nav">
+            <li class="footer__nav-item">
+              <a href="/pages/sell" class="footer__nav-link">{{ 'footer.sell_property' | t }}</a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="/pages/verify-agent" class="footer__nav-link">{{ 'footer.verify_agent' | t }}</a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="/pages/nawy-now" class="footer__nav-link">{{ 'footer.nawy_now' | t }}</a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="/pages/careers" class="footer__nav-link">{{ 'footer.careers' | t }}</a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="/pages/privacy-policy" class="footer__nav-link">{{ 'footer.privacy_policy' | t }}</a>
+            </li>
+          </ul>
+        </div>
+
+        {% comment %} Contact Information {% endcomment %}
+        <div class="footer__section">
+          <h4 class="footer__section-title">{{ 'footer.contact_info' | t }}</h4>
+          <div class="footer__contact">
+            {% if settings.footer_phone %}
+              <div class="footer__contact-item">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="footer__contact-icon">
+                  <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98a.678.678 0 0 1-.684-.122L5.734 8.266a.678.678 0 0 1-.122-.684l.549-1.405a.678.678 0 0 0-.122-.58L3.654 1.328z"/>
+                </svg>
+                <a href="tel:{{ settings.footer_phone | replace: ' ', '' }}" class="footer__contact-link">
+                  {{ settings.footer_phone }}
+                </a>
+              </div>
+            {% endif %}
+            
+            {% if settings.footer_email %}
+              <div class="footer__contact-item">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="footer__contact-icon">
+                  <path d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l5 2.5 5-2.5V4a1 1 0 0 0-1-1H4Zm9 2.383-4.708 2.354L8 7.586l-.292-.15L3 5.383V12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5.383Z"/>
+                </svg>
+                <a href="mailto:{{ settings.footer_email }}" class="footer__contact-link">
+                  {{ settings.footer_email }}
+                </a>
+              </div>
+            {% endif %}
+            
+            <div class="footer__contact-item">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="footer__contact-icon">
+                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+                <circle cx="8" cy="6" r="2"/>
+              </svg>
+              <div class="footer__contact-text">
+                <div>{{ 'footer.address_line_1' | t }}</div>
+                <div>{{ 'footer.address_line_2' | t }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {% comment %} Footer Bottom {% endcomment %}
+  <div class="footer__bottom">
+    <div class="page-width">
+      <div class="footer__bottom-content">
+        <div class="footer__copyright">
+          <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'footer.all_rights_reserved' | t }}</p>
+        </div>
+        
+        <div class="footer__legal">
+          <a href="/pages/terms-of-service" class="footer__legal-link">{{ 'footer.terms_of_service' | t }}</a>
+          <a href="/pages/privacy-policy" class="footer__legal-link">{{ 'footer.privacy_policy' | t }}</a>
+          <a href="/pages/cookie-policy" class="footer__legal-link">{{ 'footer.cookie_policy' | t }}</a>
+        </div>
+        
+        {% if settings.enable_arabic %}
+          <div class="footer__language">
+            <button type="button" class="footer__language-toggle" data-language-toggle>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4.545 6.714L4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286H4.545zM5.92 5.36L5.17 7.714h1.5L5.92 5.36z"/>
+                <path d="M13.884 8H12.5L11.878 9.633A.5.5 0 0 1 11.44 10H9.56a.5.5 0 0 1-.438-.367L8.116 8H6.731a.505.505 0 0 1-.48-.72l.818-2.572a.5.5 0 0 1 .48-.36h1.866a.5.5 0 0 1 .48.36L10.713 7.28a.505.505 0 0 1-.48.72z"/>
+              </svg>
+              <span>{{ settings.arabic_label }}</span>
+            </button>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </footer>
@@ -9,6 +188,57 @@
 {% schema %}
 {
   "name": "Footer",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Social Media"
+    },
+    {
+      "type": "text",
+      "id": "facebook_url",
+      "label": "Facebook URL",
+      "placeholder": "https://facebook.com/yourpage"
+    },
+    {
+      "type": "text",
+      "id": "instagram_url",
+      "label": "Instagram URL",
+      "placeholder": "https://instagram.com/yourpage"
+    },
+    {
+      "type": "text",
+      "id": "linkedin_url",
+      "label": "LinkedIn URL",
+      "placeholder": "https://linkedin.com/company/yourcompany"
+    },
+    {
+      "type": "text",
+      "id": "youtube_url",
+      "label": "YouTube URL",
+      "placeholder": "https://youtube.com/channel/yourchannel"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter title",
+      "default": "Stay Updated"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Newsletter description",
+      "default": "Get the latest property listings and real estate news delivered to your inbox."
+    }
+  ]
 }
 {% endschema %}

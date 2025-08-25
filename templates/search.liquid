@@ -1,0 +1,371 @@
+{% comment %}
+  Search Template - Search Results Page
+{% endcomment %}
+
+{% paginate search.results by 24 %}
+
+<div class="search-page" data-section-id="search-{{ search.terms | handle }}" data-section-type="search">
+  <div class="page-width">
+    
+    {% comment %} Page Header {% endcomment %}
+    <header class="search-header">
+      <div class="search-header__content">
+        <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+          <a href="{{ routes.root_url }}" class="breadcrumb__link">{{ 'general.breadcrumbs.home' | t }}</a>
+          <span class="breadcrumb__separator">
+            <svg width="6" height="10" viewBox="0 0 6 10" fill="none">
+              <path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="breadcrumb__text">{{ 'search.title' | t }}</span>
+        </nav>
+        
+        {% if search.performed %}
+          <h1 class="search-header__title">
+            {% if search.results_count == 0 %}
+              {{ 'search.no_results_html' | t: terms: search.terms }}
+            {% else %}
+              {{ 'search.results_for_html' | t: terms: search.terms }}
+            {% endif %}
+          </h1>
+          <div class="search-header__meta">
+            <span class="search-header__count">
+              {{ 'search.results_count' | t: count: search.results_count }}
+            </span>
+          </div>
+        {% else %}
+          <h1 class="search-header__title">{{ 'search.title' | t }}</h1>
+          <p class="search-header__subtitle">{{ 'search.subtitle' | t }}</p>
+        {% endif %}
+      </div>
+    </header>
+
+    {% comment %} Search Form {% endcomment %}
+    <div class="search-form-wrapper">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-form search-form--page">
+        <div class="search-form__input-wrapper">
+          <label for="search-input" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
+          <input
+            type="search"
+            id="search-input"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'search.placeholder' | t }}"
+            class="search-form__input"
+            autocomplete="off"
+          >
+          <input type="hidden" name="type" value="product">
+          <input type="hidden" name="options[prefix]" value="last">
+          
+          <button type="submit" class="search-form__submit">
+            {% render 'icon-search' %}
+            <span class="search-form__submit-text">{{ 'search.submit' | t }}</span>
+          </button>
+        </div>
+
+        {% comment %} Quick Filters {% endcomment %}
+        <div class="search-form__filters">
+          {% render 'search-filters' %}
+        </div>
+      </form>
+    </div>
+
+    {% if search.performed %}
+      <div class="search-content">
+        
+        {% comment %} Search Results Sidebar {% endcomment %}
+        <aside class="search-sidebar" data-search-sidebar>
+          <div class="search-sidebar__header">
+            <h3 class="search-sidebar__title">{{ 'search.filter_results' | t }}</h3>
+            <button type="button" class="search-sidebar__toggle" data-sidebar-toggle>
+              <span class="search-sidebar__toggle-text">{{ 'search.filters' | t }}</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="search-sidebar__content" data-sidebar-content>
+            <form class="search-filters search-filters--sidebar" action="{{ routes.search_url }}" method="get">
+              <input type="hidden" name="q" value="{{ search.terms | escape }}">
+              <input type="hidden" name="type" value="product">
+              
+              {% comment %} Property Type Filter {% endcomment %}
+              <div class="search-filter">
+                <h4 class="search-filter__title">{{ 'search.property_type' | t }}</h4>
+                <div class="search-filter__options">
+                  <label class="search-filter__option">
+                    <input type="checkbox" name="filter.p.product_type" value="apartment" class="search-filter__checkbox">
+                    <span class="search-filter__option-text">{{ 'properties.apartment' | t }}</span>
+                  </label>
+                  <label class="search-filter__option">
+                    <input type="checkbox" name="filter.p.product_type" value="villa" class="search-filter__checkbox">
+                    <span class="search-filter__option-text">{{ 'properties.villa' | t }}</span>
+                  </label>
+                  <label class="search-filter__option">
+                    <input type="checkbox" name="filter.p.product_type" value="townhouse" class="search-filter__checkbox">
+                    <span class="search-filter__option-text">{{ 'properties.townhouse' | t }}</span>
+                  </label>
+                </div>
+              </div>
+
+              {% comment %} Price Range Filter {% endcomment %}
+              <div class="search-filter">
+                <h4 class="search-filter__title">{{ 'search.price_range' | t }}</h4>
+                <div class="search-filter__price-range">
+                  <input type="number" name="filter.v.price.gte" placeholder="{{ 'search.min_price' | t }}" class="search-filter__input">
+                  <span class="search-filter__separator">-</span>
+                  <input type="number" name="filter.v.price.lte" placeholder="{{ 'search.max_price' | t }}" class="search-filter__input">
+                </div>
+              </div>
+
+              {% comment %} Location Filter {% endcomment %}
+              <div class="search-filter">
+                <h4 class="search-filter__title">{{ 'search.location' | t }}</h4>
+                <div class="search-filter__options">
+                  <label class="search-filter__option">
+                    <input type="checkbox" name="filter.p.location" value="new-cairo" class="search-filter__checkbox">
+                    <span class="search-filter__option-text">New Cairo</span>
+                  </label>
+                  <label class="search-filter__option">
+                    <input type="checkbox" name="filter.p.location" value="new-capital" class="search-filter__checkbox">
+                    <span class="search-filter__option-text">New Administrative Capital</span>
+                  </label>
+                  <label class="search-filter__option">
+                    <input type="checkbox" name="filter.p.location" value="6th-october" class="search-filter__checkbox">
+                    <span class="search-filter__option-text">6th of October</span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn--primary search-filter__apply">
+                {{ 'search.apply_filters' | t }}
+              </button>
+            </form>
+          </div>
+        </aside>
+
+        {% comment %} Main Search Results {% endcomment %}
+        <main class="search-main">
+          
+          {% if search.results_count > 0 %}
+            
+            {% comment %} Results Toolbar {% endcomment %}
+            <div class="search-toolbar">
+              <div class="search-toolbar__item search-toolbar__results">
+                <span class="search-toolbar__text">
+                  {{ 'search.results_count' | t: count: search.results_count }}
+                </span>
+              </div>
+              
+              <div class="search-toolbar__item search-toolbar__sort">
+                <label for="SearchSortBy" class="search-toolbar__label">{{ 'collections.sorting.title' | t }}:</label>
+                <select name="sort_by" id="SearchSortBy" class="search-toolbar__select" data-sort-by>
+                  <option value="relevance">{{ 'search.relevance' | t }}</option>
+                  <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+                  <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+                  <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+                </select>
+              </div>
+
+              <div class="search-toolbar__item search-toolbar__view">
+                <button type="button" class="search-toolbar__view-btn search-toolbar__view-btn--grid search-toolbar__view-btn--active" data-view="grid">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <rect x="1" y="1" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="9" y="1" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="1" y="9" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="9" y="9" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                </button>
+                <button type="button" class="search-toolbar__view-btn search-toolbar__view-btn--list" data-view="list">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M5 4h9M5 8h9M5 12h9M1 4h1M1 8h1M1 12h1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {% comment %} Search Results Grid {% endcomment %}
+            <div class="search-results" data-search-results>
+              <div class="search-results__grid" data-results-grid>
+                {% for item in search.results %}
+                  {% if item.object_type == 'product' %}
+                    <div class="search-results__item">
+                      {% render 'property-card', property: item, card_style: 'search' %}
+                    </div>
+                  {% else %}
+                    {% comment %} Handle other search result types (pages, articles, etc.) {% endcomment %}
+                    <div class="search-results__item search-results__item--page">
+                      <div class="search-result-card">
+                        <h3 class="search-result-card__title">
+                          <a href="{{ item.url }}">{{ item.title }}</a>
+                        </h3>
+                        {% if item.content %}
+                          <p class="search-result-card__excerpt">
+                            {{ item.content | strip_html | truncate: 120 }}
+                          </p>
+                        {% endif %}
+                        <div class="search-result-card__meta">
+                          <span class="search-result-card__type">{{ item.object_type | capitalize }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+
+            {% comment %} Pagination {% endcomment %}
+            {% if paginate.pages > 1 %}
+              <nav class="pagination" role="navigation" aria-label="pagination">
+                {% if paginate.previous %}
+                  <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M10 12l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    {{ 'general.pagination.previous' | t }}
+                  </a>
+                {% endif %}
+
+                {% for part in paginate.parts %}
+                  {% if part.is_link %}
+                    <a href="{{ part.url }}" class="pagination__item">{{ part.title }}</a>
+                  {% else %}
+                    {% if part.title == paginate.current_page %}
+                      <span class="pagination__item pagination__item--current">{{ part.title }}</span>
+                    {% else %}
+                      <span class="pagination__item pagination__item--gap">{{ part.title }}</span>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+
+                {% if paginate.next %}
+                  <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next">
+                    {{ 'general.pagination.next' | t }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                {% endif %}
+              </nav>
+            {% endif %}
+
+          {% else %}
+            {% comment %} No Results State {% endcomment %}
+            <div class="search-empty">
+              <div class="search-empty__content">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" class="search-empty__icon">
+                  <circle cx="36" cy="36" r="16" stroke="currentColor" stroke-width="3"/>
+                  <path d="M48 48l8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="36" cy="36" r="8" stroke="currentColor" stroke-width="2"/>
+                  <path d="M32 36h8M36 32v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h3 class="search-empty__title">{{ 'search.no_results_title' | t }}</h3>
+                <p class="search-empty__text">{{ 'search.no_results_text' | t: terms: search.terms }}</p>
+                
+                {% comment %} Search Suggestions {% endcomment %}
+                <div class="search-empty__suggestions">
+                  <h4 class="search-empty__suggestions-title">{{ 'search.suggestions' | t }}:</h4>
+                  <ul class="search-empty__suggestions-list">
+                    <li>{{ 'search.suggestion_1' | t }}</li>
+                    <li>{{ 'search.suggestion_2' | t }}</li>
+                    <li>{{ 'search.suggestion_3' | t }}</li>
+                  </ul>
+                </div>
+
+                <div class="search-empty__actions">
+                  <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+                    {{ 'search.view_all_properties' | t }}
+                  </a>
+                  <a href="{{ routes.root_url }}" class="btn btn--outline">
+                    {{ 'search.back_to_home' | t }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+        </main>
+      </div>
+
+    {% else %}
+      {% comment %} Initial Search State {% endcomment %}
+      <div class="search-initial">
+        <div class="search-initial__content">
+          <h2 class="search-initial__title">{{ 'search.popular_searches' | t }}</h2>
+          <div class="search-initial__tags">
+            <a href="{{ routes.search_url }}?q=villa&type=product" class="search-initial__tag">{{ 'properties.villa' | t }}</a>
+            <a href="{{ routes.search_url }}?q=apartment&type=product" class="search-initial__tag">{{ 'properties.apartment' | t }}</a>
+            <a href="{{ routes.search_url }}?q=new+cairo&type=product" class="search-initial__tag">New Cairo</a>
+            <a href="{{ routes.search_url }}?q=north+coast&type=product" class="search-initial__tag">North Coast</a>
+            <a href="{{ routes.search_url }}?q=townhouse&type=product" class="search-initial__tag">{{ 'properties.townhouse' | t }}</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endpaginate %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handle sort dropdown
+    const sortSelect = document.querySelector('[data-sort-by]');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function() {
+        const url = new URL(window.location);
+        url.searchParams.set('sort_by', this.value);
+        window.location = url.toString();
+      });
+      
+      // Set current sort value
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentSort = urlParams.get('sort_by');
+      if (currentSort) {
+        sortSelect.value = currentSort;
+      }
+    }
+
+    // Handle view toggle
+    const viewButtons = document.querySelectorAll('[data-view]');
+    const resultsGrid = document.querySelector('[data-results-grid]');
+    
+    viewButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const view = this.dataset.view;
+        
+        // Update active state
+        viewButtons.forEach(btn => btn.classList.remove('search-toolbar__view-btn--active'));
+        this.classList.add('search-toolbar__view-btn--active');
+        
+        // Update grid class
+        if (resultsGrid) {
+          resultsGrid.className = view === 'list' ? 'search-results__list' : 'search-results__grid';
+        }
+      });
+    });
+
+    // Auto-submit form on filter changes
+    const filterForm = document.querySelector('.search-filters--sidebar');
+    if (filterForm) {
+      const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
+      const priceInputs = filterForm.querySelectorAll('input[type="number"]');
+      
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          setTimeout(() => filterForm.submit(), 300);
+        });
+      });
+      
+      priceInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+          if (this.value) {
+            filterForm.submit();
+          }
+        });
+      });
+    }
+  });
+</script>

@@ -1,0 +1,285 @@
+{% comment %}
+  Blog Template - Blog Listing Page
+{% endcomment %}
+
+{% paginate blog.articles by 12 %}
+
+<div class="blog-page" data-section-id="blog-{{ blog.id }}" data-section-type="blog">
+  <div class="page-width">
+    
+    {% comment %} Blog Header {% endcomment %}
+    <header class="blog-header">
+      <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+        <a href="{{ routes.root_url }}" class="breadcrumb__link">{{ 'general.breadcrumbs.home' | t }}</a>
+        <span class="breadcrumb__separator">
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none">
+            <path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="breadcrumb__text">{{ blog.title }}</span>
+      </nav>
+      
+      <h1 class="blog-header__title">{{ blog.title }}</h1>
+      {% if blog.content != blank %}
+        <div class="blog-header__content rte">
+          {{ blog.content }}
+        </div>
+      {% endif %}
+      
+      <div class="blog-header__meta">
+        <span class="blog-header__count">
+          {{ 'blog.article_count' | t: count: blog.articles_count }}
+        </span>
+      </div>
+    </header>
+
+    <div class="blog-content">
+      
+      {% comment %} Blog Sidebar {% endcomment %}
+      <aside class="blog-sidebar">
+        
+        {% comment %} Featured Article {% endcomment %}
+        {% if blog.articles.size > 0 %}
+          {% assign featured_article = blog.articles.first %}
+          <div class="blog-sidebar__featured">
+            <h3 class="blog-sidebar__title">{{ 'blog.featured_article' | t }}</h3>
+            <article class="featured-article">
+              {% if featured_article.image %}
+                <div class="featured-article__image">
+                  <a href="{{ featured_article.url }}" class="featured-article__image-link">
+                    <img
+                      src="{{ featured_article.image | image_url: width: 400 }}"
+                      alt="{{ featured_article.image.alt | escape }}"
+                      srcset="
+                        {{ featured_article.image | image_url: width: 200 }} 200w,
+                        {{ featured_article.image | image_url: width: 300 }} 300w,
+                        {{ featured_article.image | image_url: width: 400 }} 400w
+                      "
+                      sizes="(min-width: 750px) 300px, 100vw"
+                      loading="lazy"
+                      class="featured-article__img"
+                    >
+                  </a>
+                </div>
+              {% endif %}
+              <div class="featured-article__content">
+                <h4 class="featured-article__title">
+                  <a href="{{ featured_article.url }}">{{ featured_article.title }}</a>
+                </h4>
+                <p class="featured-article__excerpt">
+                  {{ featured_article.excerpt | default: featured_article.content | strip_html | truncate: 100 }}
+                </p>
+                <div class="featured-article__meta">
+                  <time class="featured-article__date" datetime="{{ featured_article.published_at | date: '%Y-%m-%d' }}">
+                    {{ featured_article.published_at | date: format: 'abbreviated_date' }}
+                  </time>
+                  <span class="featured-article__author">{{ featured_article.author }}</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        {% endif %}
+
+        {% comment %} Categories {% endcomment %}
+        {% if blog.tags.size > 0 %}
+          <div class="blog-sidebar__categories">
+            <h3 class="blog-sidebar__title">{{ 'blog.categories' | t }}</h3>
+            <ul class="blog-categories">
+              {% for tag in blog.tags %}
+                <li class="blog-categories__item">
+                  <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="blog-categories__link">
+                    {{ tag }}
+                    <span class="blog-categories__count">({{ blog.articles | where: 'tags', tag | size }})</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {% comment %} Recent Articles {% endcomment %}
+        {% assign recent_articles = blog.articles | limit: 5 %}
+        {% if recent_articles.size > 1 %}
+          <div class="blog-sidebar__recent">
+            <h3 class="blog-sidebar__title">{{ 'blog.recent_articles' | t }}</h3>
+            <ul class="recent-articles">
+              {% for article in recent_articles offset: 1 %}
+                <li class="recent-articles__item">
+                  <article class="recent-article">
+                    {% if article.image %}
+                      <div class="recent-article__image">
+                        <a href="{{ article.url }}">
+                          <img
+                            src="{{ article.image | image_url: width: 100 }}"
+                            alt="{{ article.image.alt | escape }}"
+                            loading="lazy"
+                            class="recent-article__img"
+                          >
+                        </a>
+                      </div>
+                    {% endif %}
+                    <div class="recent-article__content">
+                      <h4 class="recent-article__title">
+                        <a href="{{ article.url }}">{{ article.title }}</a>
+                      </h4>
+                      <time class="recent-article__date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                        {{ article.published_at | date: format: 'abbreviated_date' }}
+                      </time>
+                    </div>
+                  </article>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+      </aside>
+
+      {% comment %} Main Blog Content {% endcomment %}
+      <main class="blog-main">
+        
+        {% if blog.articles.size > 0 %}
+          
+          {% comment %} Articles Grid {% endcomment %}
+          <div class="blog-articles">
+            <div class="blog-articles__grid">
+              {% for article in blog.articles %}
+                <article class="blog-article-card">
+                  {% if article.image %}
+                    <div class="blog-article-card__image">
+                      <a href="{{ article.url }}" class="blog-article-card__image-link">
+                        <img
+                          src="{{ article.image | image_url: width: 600 }}"
+                          alt="{{ article.image.alt | escape }}"
+                          srcset="
+                            {{ article.image | image_url: width: 300 }} 300w,
+                            {{ article.image | image_url: width: 450 }} 450w,
+                            {{ article.image | image_url: width: 600 }} 600w
+                          "
+                          sizes="(min-width: 990px) 30vw, (min-width: 750px) 50vw, 100vw"
+                          loading="lazy"
+                          class="blog-article-card__img"
+                        >
+                      </a>
+                    </div>
+                  {% endif %}
+
+                  <div class="blog-article-card__content">
+                    {% if article.tags.size > 0 %}
+                      <div class="blog-article-card__tags">
+                        {% for tag in article.tags limit: 2 %}
+                          <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="blog-article-card__tag">
+                            {{ tag }}
+                          </a>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    <h3 class="blog-article-card__title">
+                      <a href="{{ article.url }}">{{ article.title }}</a>
+                    </h3>
+
+                    <div class="blog-article-card__meta">
+                      <time class="blog-article-card__date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                        {{ article.published_at | date: format: 'abbreviated_date' }}
+                      </time>
+                      <span class="blog-article-card__author">{{ 'blog.by_author' | t: author: article.author }}</span>
+                    </div>
+
+                    <p class="blog-article-card__excerpt">
+                      {{ article.excerpt | default: article.content | strip_html | truncate: 120 }}
+                    </p>
+
+                    <a href="{{ article.url }}" class="blog-article-card__read-more">
+                      {{ 'blog.read_more' | t }}
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </a>
+                  </div>
+                </article>
+              {% endfor %}
+            </div>
+          </div>
+
+          {% comment %} Pagination {% endcomment %}
+          {% if paginate.pages > 1 %}
+            <nav class="pagination" role="navigation" aria-label="pagination">
+              {% if paginate.previous %}
+                <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t }}">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M10 12l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  {{ 'general.pagination.previous' | t }}
+                </a>
+              {% endif %}
+
+              {% for part in paginate.parts %}
+                {% if part.is_link %}
+                  <a href="{{ part.url }}" class="pagination__item">{{ part.title }}</a>
+                {% else %}
+                  {% if part.title == paginate.current_page %}
+                    <span class="pagination__item pagination__item--current">{{ part.title }}</span>
+                  {% else %}
+                    <span class="pagination__item pagination__item--gap">{{ part.title }}</span>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+
+              {% if paginate.next %}
+                <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t }}">
+                  {{ 'general.pagination.next' | t }}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              {% endif %}
+            </nav>
+          {% endif %}
+
+        {% else %}
+          {% comment %} Empty State {% endcomment %}
+          <div class="blog-empty">
+            <div class="blog-empty__content">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" class="blog-empty__icon">
+                <rect x="10" y="20" width="60" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+                <path d="M20 30h40M20 40h40M20 50h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <h3 class="blog-empty__title">{{ 'blog.no_articles' | t }}</h3>
+              <p class="blog-empty__text">{{ 'blog.no_articles_text' | t }}</p>
+              <a href="{{ routes.root_url }}" class="btn btn--primary">
+                {{ 'blog.back_to_home' | t }}
+              </a>
+            </div>
+          </div>
+        {% endif %}
+
+      </main>
+    </div>
+
+  </div>
+</div>
+
+{% endpaginate %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add loading states to pagination links
+    const paginationLinks = document.querySelectorAll('.pagination__item[href]');
+    paginationLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        this.style.opacity = '0.6';
+        this.style.pointerEvents = 'none';
+      });
+    });
+
+    // Handle category filter interactions
+    const categoryLinks = document.querySelectorAll('.blog-categories__link');
+    categoryLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        // Add visual feedback
+        this.style.opacity = '0.6';
+      });
+    });
+  });
+</script>

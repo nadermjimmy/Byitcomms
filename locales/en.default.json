@@ -1,1 +1,353 @@
-{"general":{"404":{"title":"404 - Page not found","subtext":"The page you requested does not exist."},"accessibility":{"skip_to_content":"Skip to content"},"meta":{"tags":"Tagged \"{{ tags }}\"","page":"Page {{ page }}"},"pagination":{"previous":"Previous","next":"Next"}},"newsletter":{"label":"Email","success":"Thanks for subscribing","button_label":"Subscribe"},"search":{"no_results_html":"Your search for \"{{ terms }}\" didn't yield any results.","results_for_html":"Your search for \"{{ terms }}\" revealed the following:","title":"Search","placeholder":"Search our store","submit":"Search"}}
+{
+  "general": {
+    "404": {
+      "title": "404 - Page not found",
+      "subtext": "The page you requested does not exist."
+    },
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "mobile_menu": "Mobile menu"
+    },
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "breadcrumbs": {
+      "home": "Home"
+    }
+  },
+  "newsletter": {
+    "label": "Email",
+    "success": "Thanks for subscribing",
+    "button_label": "Subscribe"
+  },
+  "search": {
+    "no_results_html": "Your search for \"{{ terms }}\" didn't yield any results.",
+    "results_for_html": "Your search for \"{{ terms }}\" revealed the following:",
+    "title": "Search Properties",
+    "subtitle": "Find your perfect home from thousands of listings",
+    "placeholder": "Search properties, locations, or developers",
+    "submit": "Search",
+    "search_properties": "Search Properties",
+    "search_compounds": "Search Compounds",
+    "compounds": "Compounds",
+    "properties": "Properties",
+    "location": "Location",
+    "all_locations": "All Locations",
+    "property_type": "Property Type",
+    "all_types": "All Property Types",
+    "bedrooms": "Bedrooms",
+    "any_bedrooms": "Any",
+    "bathrooms": "Bathrooms",
+    "any_bathrooms": "Any",
+    "price_range": "Price Range",
+    "min_price": "Min Price",
+    "max_price": "Max Price",
+    "area_range": "Area Range",
+    "min_area": "Min Area",
+    "max_area": "Max Area",
+    "completion_status": "Completion Status",
+    "any_completion": "Any Status",
+    "payment_plan": "Payment Plan",
+    "any_payment": "Any Payment",
+    "advanced_filters": "Advanced Filters",
+    "filter_results": "Filter Results",
+    "filters": "Filters",
+    "apply_filters": "Apply Filters",
+    "clear_filters": "Clear Filters",
+    "popular_searches": "Popular Searches",
+    "recent_searches": "Recent Searches",
+    "no_results_title": "No Properties Found",
+    "no_results_text": "Try adjusting your search criteria or browse all properties",
+    "suggestions": "Try these suggestions",
+    "suggestion_1": "Check your spelling",
+    "suggestion_2": "Try more general keywords",
+    "suggestion_3": "Use different search terms",
+    "view_all_properties": "View All Properties",
+    "back_to_home": "Back to Home",
+    "results_count": "{{ count }} properties found",
+    "search_properties_placeholder": "Search by property name, location, or features",
+    "relevance": "Relevance"
+  },
+  "properties": {
+    "apartment": "Apartment",
+    "apartments": "Apartments",
+    "villa": "Villa",
+    "villas": "Villas",
+    "townhouse": "Townhouse",
+    "townhouses": "Townhouses",
+    "duplex": "Duplex",
+    "studio": "Studio",
+    "penthouse": "Penthouse",
+    "bedroom": "Bedroom",
+    "bedrooms": "Bedrooms",
+    "beds": "Beds",
+    "bathroom": "Bathroom",
+    "bathrooms": "Bathrooms",
+    "baths": "Baths",
+    "sqm": "m²",
+    "view_details": "View Details",
+    "contact_agent": "Contact Agent",
+    "schedule_viewing": "Schedule Viewing",
+    "add_to_wishlist": "Add to Wishlist",
+    "remove_from_wishlist": "Remove from Wishlist",
+    "share": "Share Property",
+    "available": "Available",
+    "featured": "Featured",
+    "property_type": "Property Type",
+    "developer": "Developer",
+    "completion_date": "Completion Date",
+    "area": "Area",
+    "payment_plan": "Payment Plan",
+    "monthly_payment": "Monthly Payment",
+    "month": "month",
+    "description": "Description",
+    "features": "Features",
+    "amenities": "Amenities",
+    "related_properties": "Related Properties",
+    "contact_message_template": "I'm interested in {{ property_title }}. Please contact me with more details.",
+    "ready_to_move": "Ready to Move",
+    "under_construction": "Under Construction",
+    "off_plan": "Off Plan",
+    "cash": "Cash",
+    "installments": "Installments",
+    "mortgage": "Mortgage",
+    "sample_type": "Apartment",
+    "sample_location": "New Cairo",
+    "sample_title": "Sample Property",
+    "total_properties": "Total Properties",
+    "compounds": "Compounds",
+    "locations": "Locations"
+  },
+  "collections": {
+    "general": {
+      "view_all": "View All",
+      "all_properties": "All Properties",
+      "items_with_count": {
+        "one": "{{ count }} property",
+        "other": "{{ count }} properties"
+      },
+      "no_matches": "No properties found",
+      "no_products_html": "No properties match your current selection.",
+      "grid_view": "Grid View",
+      "list_view": "List View",
+      "load_more": "Load More"
+    },
+    "filters": {
+      "title": "Filters",
+      "filter": "Filter",
+      "price": "Price",
+      "price_from": "From",
+      "price_to": "To",
+      "clear_all": "Clear All",
+      "active_filters": "Active Filters",
+      "remove_filter": "Remove Filter"
+    },
+    "sorting": {
+      "title": "Sort by",
+      "featured": "Featured",
+      "best_selling": "Most Popular",
+      "az": "Alphabetically, A-Z",
+      "za": "Alphabetically, Z-A",
+      "price_ascending": "Price, Low to High",
+      "price_descending": "Price, High to Low",
+      "date_ascending": "Date, Old to New",
+      "date_descending": "Date, New to Old"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "search": "Search",
+    "nawy_now": "Nawy Now",
+    "sell": "Sell",
+    "verify_agent": "Verify Agent",
+    "contact": "Contact",
+    "blog": "Blog",
+    "careers": "Careers",
+    "about": "About",
+    "wishlist": "Wishlist",
+    "account": "My Account"
+  },
+  "footer": {
+    "follow_us": "Follow Us",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "quick_links": "Quick Links",
+    "services": "Services",
+    "contact_info": "Contact Information",
+    "sell_property": "Sell Your Property",
+    "verify_agent": "Verify Agent",
+    "nawy_now": "Nawy Now",
+    "careers": "Careers",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "cookie_policy": "Cookie Policy",
+    "all_rights_reserved": "All rights reserved",
+    "address_line_1": "123 Business District",
+    "address_line_2": "New Cairo, Egypt"
+  },
+  "contact": {
+    "form": {
+      "title": "Get in Touch",
+      "subtitle": "Ready to find your dream home? Contact our expert team today.",
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "subject_placeholder": "Choose a subject",
+      "subject_general": "General Inquiry",
+      "subject_property": "Property Inquiry",
+      "subject_agent": "Agent Services",
+      "subject_partnership": "Partnership",
+      "subject_support": "Support",
+      "message": "Message",
+      "message_placeholder": "Tell us how we can help you...",
+      "send": "Send Message",
+      "post_success": "Thank you for contacting us! We'll get back to you soon.",
+      "error_heading": "Please correct the following errors:"
+    },
+    "info": {
+      "title": "Contact Information",
+      "subtitle": "Get in touch with our real estate experts",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "hours": "Business Hours",
+      "hours_weekdays": "Monday - Friday: 9:00 AM - 8:00 PM",
+      "hours_weekend": "Saturday - Sunday: 10:00 AM - 6:00 PM",
+      "address_line_1": "123 Business District",
+      "address_line_2": "New Cairo, Egypt"
+    },
+    "map": {
+      "placeholder": "Interactive map would be displayed here"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "question_1": "How do I search for properties?",
+      "answer_1": "Use our advanced search filters to find properties by location, type, price range, and more. You can also save your searches for future reference.",
+      "question_2": "Can I schedule property viewings?",
+      "answer_2": "Yes! You can schedule viewings directly through our platform or contact our agents for personalized assistance.",
+      "question_3": "Do you offer financing assistance?",
+      "answer_3": "We work with trusted financial partners to help you secure the best financing options for your property purchase.",
+      "question_4": "How do I list my property for sale?",
+      "answer_4": "Contact our team or use our 'Sell Your Property' service to get a free valuation and listing consultation."
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "About Nawy Real Estate",
+      "subtitle": "Egypt's Leading Real Estate Platform",
+      "description": "We're revolutionizing the real estate experience in Egypt by connecting buyers, sellers, and agents through innovative technology and exceptional service."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "text": "To make property transactions transparent, efficient, and accessible for everyone in Egypt."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "text": "To become the most trusted real estate platform in the Middle East and North Africa region."
+    },
+    "values": {
+      "title": "Our Values",
+      "text": "Integrity, innovation, and customer-centricity drive everything we do."
+    },
+    "stats": {
+      "title": "Our Impact",
+      "properties_number": "10,000+",
+      "properties_label": "Properties Listed",
+      "compounds_number": "500+",
+      "compounds_label": "Premium Compounds",
+      "customers_number": "50,000+",
+      "customers_label": "Happy Customers",
+      "agents_number": "1,000+",
+      "agents_label": "Verified Agents"
+    },
+    "story": {
+      "title": "Our Story",
+      "paragraph_1": "Founded in 2017, Nawy began with a simple mission: to transform Egypt's real estate market through technology and transparency.",
+      "paragraph_2": "Starting as a small team of real estate enthusiasts, we've grown to become Egypt's leading property platform, serving thousands of customers across the country.",
+      "paragraph_3": "Today, we continue to innovate and expand, always keeping our customers' needs at the heart of everything we do."
+    },
+    "timeline": {
+      "year_1": "2017",
+      "event_1": "Nawy was founded",
+      "year_2": "2019",
+      "event_2": "Reached 1,000 properties",
+      "year_3": "2021",
+      "event_3": "Launched mobile app",
+      "year_4": "2023",
+      "event_4": "10,000+ properties milestone"
+    },
+    "team": {
+      "title": "Meet Our Team",
+      "subtitle": "The experts behind your real estate journey",
+      "ceo_name": "Ahmed Hassan",
+      "ceo_role": "Chief Executive Officer",
+      "ceo_bio": "Ahmed brings over 15 years of real estate and technology experience to lead Nawy's vision.",
+      "cto_name": "Sarah Mohamed",
+      "cto_role": "Chief Technology Officer",
+      "cto_bio": "Sarah leads our technical innovation, ensuring our platform remains cutting-edge and user-friendly.",
+      "head_sales_name": "Omar Ali",
+      "head_sales_role": "Head of Sales",
+      "head_sales_bio": "Omar oversees our sales operations and agent network across Egypt."
+    },
+    "why_choose": {
+      "title": "Why Choose Nawy?",
+      "subtitle": "We're committed to excellence in real estate",
+      "expertise_title": "Industry Expertise",
+      "expertise_text": "Deep knowledge of Egypt's real estate market and trends.",
+      "trust_title": "Trusted Platform",
+      "trust_text": "Verified listings and transparent pricing for your peace of mind.",
+      "support_title": "24/7 Support",
+      "support_text": "Our dedicated team is always ready to assist you.",
+      "innovation_title": "Innovative Technology",
+      "innovation_text": "Advanced search tools and seamless user experience."
+    },
+    "cta": {
+      "title": "Ready to Find Your Dream Home?",
+      "text": "Join thousands of satisfied customers who found their perfect property with Nawy.",
+      "browse_properties": "Browse Properties",
+      "contact_us": "Contact Us"
+    }
+  },
+  "blog": {
+    "featured_article": "Featured Article",
+    "categories": "Categories",
+    "recent_articles": "Recent Articles",
+    "article_count": {
+      "one": "{{ count }} article",
+      "other": "{{ count }} articles"
+    },
+    "by_author": "By {{ author }}",
+    "read_more": "Read More",
+    "no_articles": "No Articles Yet",
+    "no_articles_text": "Check back soon for the latest real estate insights and news.",
+    "back_to_home": "Back to Home",
+    "back_to_blog": "Back to {{ blog_title }}",
+    "min_read": "min read",
+    "share_article": "Share this article",
+    "share_on_facebook": "Share on Facebook",
+    "share_on_twitter": "Share on Twitter",
+    "share_on_linkedin": "Share on LinkedIn",
+    "copy_link": "Copy Link",
+    "comments_title": "Comments",
+    "leave_comment": "Leave a Comment",
+    "comment_moderation": "Your comment is awaiting moderation.",
+    "comment_success": "Your comment has been posted successfully!",
+    "name": "Name",
+    "email": "Email",
+    "comment": "Comment",
+    "post_comment": "Post Comment",
+    "related_articles": "Related Articles",
+    "tags": "Tags",
+    "previous_article": "Previous Article",
+    "next_article": "Next Article",
+    "author_title": "Real Estate Expert"
+  }
+}

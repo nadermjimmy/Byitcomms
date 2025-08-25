@@ -1,0 +1,219 @@
+{% comment %}
+  Featured Properties Section - Display featured real estate listings
+{% endcomment %}
+
+<section class="featured-properties" data-section-id="{{ section.id }}" data-section-type="featured-properties">
+  <div class="page-width">
+    <div class="featured-properties__inner">
+      
+      {% comment %} Section Header {% endcomment %}
+      {% if section.settings.title != blank or section.settings.subtitle != blank %}
+        <div class="featured-properties__header">
+          {% if section.settings.title != blank %}
+            <h2 class="featured-properties__title">{{ section.settings.title }}</h2>
+          {% endif %}
+          {% if section.settings.subtitle != blank %}
+            <p class="featured-properties__subtitle">{{ section.settings.subtitle }}</p>
+          {% endif %}
+          {% if section.settings.show_view_all %}
+            <a href="{{ collections[section.settings.collection].url | default: routes.all_products_collection_url }}" 
+               class="featured-properties__view-all btn btn--secondary">
+              {{ 'collections.general.view_all' | t }}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% comment %} Property Filter Tabs {% endcomment %}
+      {% if section.settings.show_filter_tabs %}
+        <div class="featured-properties__filters" data-property-filters>
+          <button type="button" class="featured-properties__filter featured-properties__filter--active" data-filter="all">
+            {{ 'collections.general.all_properties' | t }}
+          </button>
+          <button type="button" class="featured-properties__filter" data-filter="apartments">
+            {{ 'properties.apartments' | t }}
+          </button>
+          <button type="button" class="featured-properties__filter" data-filter="villas">
+            {{ 'properties.villas' | t }}
+          </button>
+          <button type="button" class="featured-properties__filter" data-filter="townhouses">
+            {{ 'properties.townhouses' | t }}
+          </button>
+        </div>
+      {% endif %}
+
+      {% comment %} Properties Grid {% endcomment %}
+      <div class="featured-properties__grid" data-properties-grid>
+        {% assign featured_collection = collections[section.settings.collection] %}
+        {% assign properties_to_show = section.settings.products_to_show | default: 8 %}
+        
+        {% if featured_collection.products.size > 0 %}
+          {% for product in featured_collection.products limit: properties_to_show %}
+            <div class="featured-properties__item" 
+                 data-property-type="{{ product.metafields.property.type.value | default: 'apartment' | handle }}"
+                 data-aos="fade-up" 
+                 data-aos-delay="{{ forloop.index | times: 100 }}">
+              {% render 'property-card', property: product, card_style: 'featured' %}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% comment %} Placeholder content when no products are available {% endcomment %}
+          {% for i in (1..properties_to_show) %}
+            <div class="featured-properties__item" data-aos="fade-up" data-aos-delay="{{ forloop.index | times: 100 }}">
+              <div class="property-card property-card--placeholder">
+                <div class="property-card__image">
+                  <div class="property-card__placeholder-image">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                      <path d="M7.5 52.5h45M7.5 52.5V22.5l22.5-15 22.5 15v30M7.5 52.5h45M22.5 52.5V30h15v22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="property-card__content">
+                  <div class="property-card__meta">
+                    <span class="property-card__type">{{ 'properties.sample_type' | t }}</span>
+                    <span class="property-card__location">{{ 'properties.sample_location' | t }}</span>
+                  </div>
+                  <h3 class="property-card__title">{{ 'properties.sample_title' | t }}</h3>
+                  <div class="property-card__details">
+                    <span class="property-card__detail">3 {{ 'properties.beds' | t }}</span>
+                    <span class="property-card__detail">2 {{ 'properties.baths' | t }}</span>
+                    <span class="property-card__detail">120 {{ 'properties.sqm' | t }}</span>
+                  </div>
+                  <div class="property-card__price">
+                    <span class="property-card__price-current">{{ 2500000 | money }}</span>
+                  </div>
+                  <div class="property-card__actions">
+                    <button class="btn btn--secondary property-card__btn" disabled>
+                      {{ 'properties.view_details' | t }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      {% comment %} Load More Button {% endcomment %}
+      {% if section.settings.show_load_more and featured_collection.products.size > properties_to_show %}
+        <div class="featured-properties__load-more">
+          <button type="button" class="btn btn--outline featured-properties__load-more-btn" data-load-more>
+            {{ 'collections.general.load_more' | t }}
+          </button>
+        </div>
+      {% endif %}
+
+      {% comment %} Property Stats {% endcomment %}
+      {% if section.settings.show_stats %}
+        <div class="featured-properties__stats">
+          <div class="featured-properties__stat">
+            <span class="featured-properties__stat-number">{{ collections.all.products_count | default: '10,000+' }}</span>
+            <span class="featured-properties__stat-label">{{ 'properties.total_properties' | t }}</span>
+          </div>
+          <div class="featured-properties__stat">
+            <span class="featured-properties__stat-number">{{ section.settings.compounds_count | default: '500+' }}</span>
+            <span class="featured-properties__stat-label">{{ 'properties.compounds' | t }}</span>
+          </div>
+          <div class="featured-properties__stat">
+            <span class="featured-properties__stat-number">{{ section.settings.locations_count | default: '50+' }}</span>
+            <span class="featured-properties__stat-label">{{ 'properties.locations' | t }}</span>
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Properties",
+  "tag": "section",
+  "class": "section-featured-properties",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured Properties"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Discover our handpicked selection of premium properties"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Select the collection of properties to display"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "label": "Number of properties to show",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Layout Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter_tabs",
+      "label": "Show property type filters",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_load_more",
+      "label": "Show 'Load More' button",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Statistics"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show property statistics",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "compounds_count",
+      "label": "Number of compounds",
+      "default": "500+"
+    },
+    {
+      "type": "text",
+      "id": "locations_count",
+      "label": "Number of locations",
+      "default": "50+"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Properties"
+    }
+  ]
+}
+{% endschema %}

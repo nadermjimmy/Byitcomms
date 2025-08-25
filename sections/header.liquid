@@ -1,17 +1,155 @@
-<header class="site-header">
-  <div class="page-width">
-    <div class="header__content">
-      <div class="header__logo">
-        {% if settings.logo != blank %}
-          <img src="{{ settings.logo | image_url }}" alt="{{ shop.name }}">
-        {% else %}
-          <span class="h1">{{ shop.name }}</span>
-        {% endif %}
+{% comment %}
+  Header section with Nawy-inspired navigation
+{% endcomment %}
+
+<header class="site-header" data-section-id="{{ section.id }}" data-section-type="header">
+  <div class="header__top-bar">
+    <div class="page-width">
+      <div class="header__top-content">
+        <div class="header__contact-info">
+          {% if settings.footer_phone %}
+            <a href="tel:{{ settings.footer_phone | replace: ' ', '' }}" class="header__phone">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98a.678.678 0 0 1-.684-.122L5.734 8.266a.678.678 0 0 1-.122-.684l.549-1.405a.678.678 0 0 0-.122-.58L3.654 1.328z"/>
+              </svg>
+              {{ settings.footer_phone }}
+            </a>
+          {% endif %}
+          {% if settings.footer_email %}
+            <a href="mailto:{{ settings.footer_email }}" class="header__email">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l5 2.5 5-2.5V4a1 1 0 0 0-1-1H4Zm9 2.383-4.708 2.354L8 7.586l-.292-.15L3 5.383V12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5.383Z"/>
+              </svg>
+              {{ settings.footer_email }}
+            </a>
+          {% endif %}
+        </div>
+        <div class="header__language-toggle">
+          {% if settings.enable_arabic %}
+            <button type="button" class="header__language-btn" data-language-toggle>
+              <span class="header__language-text">{{ settings.arabic_label }}</span>
+            </button>
+          {% endif %}
+        </div>
       </div>
-      <nav class="header__nav">
-        {% for link in linklists.main-menu.links %}
-          <a href="{{ link.url }}">{{ link.title }}</a>
-        {% endfor %}
+    </div>
+  </div>
+
+  <div class="header__main">
+    <div class="page-width">
+      <div class="header__content">
+        
+        {% comment %} Logo {% endcomment %}
+        <div class="header__logo">
+          <a href="{{ routes.root_url }}" class="header__logo-link">
+            {% if settings.logo != blank %}
+              <img 
+                src="{{ settings.logo | image_url: width: settings.logo_width }}" 
+                alt="{{ shop.name | escape }}"
+                width="{{ settings.logo_width }}"
+                height="auto"
+                class="header__logo-img"
+              >
+            {% else %}
+              <span class="header__logo-text">{{ shop.name }}</span>
+            {% endif %}
+          </a>
+        </div>
+
+        {% comment %} Navigation Menu {% endcomment %}
+        <nav class="header__nav" role="navigation">
+          <ul class="header__nav-list">
+            <li class="header__nav-item">
+              <a href="{{ routes.root_url }}" class="header__nav-link{% if template.name == 'index' %} header__nav-link--active{% endif %}">
+                {{ 'navigation.home' | t }}
+              </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="{{ routes.search_url }}" class="header__nav-link{% if template.name == 'search' %} header__nav-link--active{% endif %}">
+                {{ 'navigation.search' | t }}
+              </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/pages/nawy-now" class="header__nav-link">
+                {{ 'navigation.nawy_now' | t }}
+              </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/pages/sell" class="header__nav-link">
+                {{ 'navigation.sell' | t }}
+              </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/pages/verify-agent" class="header__nav-link">
+                {{ 'navigation.verify_agent' | t }}
+              </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/pages/contact" class="header__nav-link{% if template.name == 'page' and page.handle == 'contact' %} header__nav-link--active{% endif %}">
+                {{ 'navigation.contact' | t }}
+              </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="{{ blog.url }}" class="header__nav-link{% if template.name == 'blog' or template.name == 'article' %} header__nav-link--active{% endif %}">
+                {{ 'navigation.blog' | t }}
+              </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/pages/careers" class="header__nav-link">
+                {{ 'navigation.careers' | t }}
+              </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/pages/about" class="header__nav-link{% if template.name == 'page' and page.handle == 'about' %} header__nav-link--active{% endif %}">
+                {{ 'navigation.about' | t }}
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        {% comment %} Mobile Menu Toggle {% endcomment %}
+        <div class="header__mobile-nav">
+          <button type="button" class="header__mobile-toggle" data-mobile-menu-toggle aria-label="{{ 'accessibility.mobile_menu' | t }}">
+            <span class="header__mobile-toggle-line"></span>
+            <span class="header__mobile-toggle-line"></span>
+            <span class="header__mobile-toggle-line"></span>
+          </button>
+        </div>
+
+        {% comment %} User Actions {% endcomment %}
+        <div class="header__actions">
+          <a href="/pages/wishlist" class="header__action-link" aria-label="{{ 'navigation.wishlist' | t }}">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 17.5s-7.5-5-7.5-10a3.75 3.75 0 0 1 7.5 0 3.75 3.75 0 0 1 7.5 0c0 5-7.5 10-7.5 10z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            </svg>
+            <span class="visually-hidden">{{ 'navigation.wishlist' | t }}</span>
+          </a>
+          
+          <a href="{{ routes.account_url }}" class="header__action-link" aria-label="{{ 'navigation.account' | t }}">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 10a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2.5c-5.523 0-10 2.239-10 5v.833c0 .92.746 1.667 1.667 1.667h16.666c.92 0 1.667-.746 1.667-1.667V17.5c0-2.761-4.477-5-10-5z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            </svg>
+            <span class="visually-hidden">{{ 'navigation.account' | t }}</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {% comment %} Mobile Navigation Menu {% endcomment %}
+  <div class="header__mobile-menu" data-mobile-menu>
+    <div class="header__mobile-menu-content">
+      <nav class="header__mobile-nav-menu">
+        <a href="{{ routes.root_url }}" class="header__mobile-nav-link">{{ 'navigation.home' | t }}</a>
+        <a href="{{ routes.search_url }}" class="header__mobile-nav-link">{{ 'navigation.search' | t }}</a>
+        <a href="/pages/nawy-now" class="header__mobile-nav-link">{{ 'navigation.nawy_now' | t }}</a>
+        <a href="/pages/sell" class="header__mobile-nav-link">{{ 'navigation.sell' | t }}</a>
+        <a href="/pages/verify-agent" class="header__mobile-nav-link">{{ 'navigation.verify_agent' | t }}</a>
+        <a href="/pages/contact" class="header__mobile-nav-link">{{ 'navigation.contact' | t }}</a>
+        <a href="{{ blog.url }}" class="header__mobile-nav-link">{{ 'navigation.blog' | t }}</a>
+        <a href="/pages/careers" class="header__mobile-nav-link">{{ 'navigation.careers' | t }}</a>
+        <a href="/pages/about" class="header__mobile-nav-link">{{ 'navigation.about' | t }}</a>
       </nav>
     </div>
   </div>
@@ -22,9 +160,33 @@
   "name": "Header",
   "settings": [
     {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
       "type": "image_picker",
       "id": "logo",
-      "label": "Logo"
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 150
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable sticky header",
+      "default": true
     }
   ]
 }

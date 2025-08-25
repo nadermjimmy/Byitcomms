@@ -1,0 +1,195 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Nawy Real Estate",
+    "theme_version": "1.0.0",
+    "theme_author": "Byitcomms",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "label": "Logo width",
+        "default": 150
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary color",
+        "default": "#1a1a1a"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary color",
+        "default": "#ff6b35"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent color",
+        "default": "#2e8b57"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background color",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "assistant_n6"
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "Base font size",
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Homepage",
+    "settings": [
+      {
+        "type": "text",
+        "id": "hero_title",
+        "label": "Hero title",
+        "default": "YOUR HOME IN A COMPOUND"
+      },
+      {
+        "type": "textarea",
+        "id": "hero_subtitle",
+        "label": "Hero subtitle",
+        "default": "Find your perfect home in the best compounds across Egypt"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_background",
+        "label": "Hero background image"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search_tabs",
+        "label": "Show Compounds/Properties tabs",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Search & Filters",
+    "settings": [
+      {
+        "type": "text",
+        "id": "search_placeholder",
+        "label": "Search placeholder",
+        "default": "Search by location, compound, or developer"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_location_filter",
+        "label": "Enable location filter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_price_filter",
+        "label": "Enable price range filter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_bedrooms_filter",
+        "label": "Enable bedrooms filter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_bathrooms_filter",
+        "label": "Enable bathrooms filter",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Language",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_arabic",
+        "label": "Enable Arabic language toggle",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "arabic_label",
+        "label": "Arabic toggle label",
+        "default": "العربية"
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "footer_text",
+        "label": "Footer text",
+        "default": "<p>Find your dream home with Nawy - Egypt's leading real estate platform</p>"
+      },
+      {
+        "type": "text",
+        "id": "footer_phone",
+        "label": "Phone number",
+        "default": "+20 123 456 7890"
+      },
+      {
+        "type": "text",
+        "id": "footer_email",
+        "label": "Email address",
+        "default": "info@nawy.com"
+      }
+    ]
+  }
+]

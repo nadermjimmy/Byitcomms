@@ -1,0 +1,302 @@
+{% comment %}
+  Contact Page Template
+{% endcomment %}
+
+<div class="contact-page" data-section-id="contact-{{ page.id }}" data-section-type="contact">
+  <div class="page-width">
+    
+    {% comment %} Page Header {% endcomment %}
+    <header class="page-header">
+      <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+        <a href="{{ routes.root_url }}" class="breadcrumb__link">{{ 'general.breadcrumbs.home' | t }}</a>
+        <span class="breadcrumb__separator">
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none">
+            <path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="breadcrumb__text">{{ page.title }}</span>
+      </nav>
+      
+      <h1 class="page-header__title">{{ page.title }}</h1>
+      {% if page.content != blank %}
+        <div class="page-header__content rte">
+          {{ page.content }}
+        </div>
+      {% endif %}
+    </header>
+
+    <div class="contact-content">
+      
+      {% comment %} Contact Form {% endcomment %}
+      <div class="contact-form-section">
+        <div class="contact-form-wrapper">
+          <h2 class="contact-form__title">{{ 'contact.form.title' | t }}</h2>
+          <p class="contact-form__subtitle">{{ 'contact.form.subtitle' | t }}</p>
+          
+          {% form 'contact', class: 'contact-form' %}
+            {% if form.posted_successfully? %}
+              <div class="contact-form__success" role="status">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="contact-form__success-icon">
+                  <circle cx="10" cy="10" r="9" fill="currentColor"/>
+                  <path d="M6 10l2 2 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="contact-form__success-text">{{ 'contact.form.post_success' | t }}</span>
+              </div>
+            {% endif %}
+
+            {% if form.errors %}
+              <div class="contact-form__errors" role="alert">
+                <h3 class="contact-form__errors-title">{{ 'contact.form.error_heading' | t }}</h3>
+                <ul class="contact-form__errors-list">
+                  {% for field in form.errors %}
+                    <li class="contact-form__error">
+                      {% if field == 'form' %}
+                        {{ form.errors.messages[field] }}
+                      {% else %}
+                        {{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+
+            <div class="contact-form__grid">
+              <div class="contact-form__field">
+                <label for="ContactFormName" class="contact-form__label">
+                  {{ 'contact.form.name' | t }} <span class="contact-form__required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="ContactFormName" 
+                  name="contact[{{ 'contact.form.name' | t }}]" 
+                  class="contact-form__input{% if form.errors contains 'name' %} contact-form__input--error{% endif %}"
+                  value="{% if form.name %}{{ form.name }}{% endif %}"
+                  required
+                  aria-required="true"
+                >
+              </div>
+
+              <div class="contact-form__field">
+                <label for="ContactFormEmail" class="contact-form__label">
+                  {{ 'contact.form.email' | t }} <span class="contact-form__required">*</span>
+                </label>
+                <input 
+                  type="email" 
+                  id="ContactFormEmail" 
+                  name="contact[email]" 
+                  class="contact-form__input{% if form.errors contains 'email' %} contact-form__input--error{% endif %}"
+                  value="{% if form.email %}{{ form.email }}{% endif %}"
+                  required
+                  aria-required="true"
+                  autocomplete="email"
+                >
+              </div>
+
+              <div class="contact-form__field">
+                <label for="ContactFormPhone" class="contact-form__label">
+                  {{ 'contact.form.phone' | t }}
+                </label>
+                <input 
+                  type="tel" 
+                  id="ContactFormPhone" 
+                  name="contact[{{ 'contact.form.phone' | t }}]" 
+                  class="contact-form__input"
+                  value="{% if form.phone %}{{ form.phone }}{% endif %}"
+                  autocomplete="tel"
+                >
+              </div>
+
+              <div class="contact-form__field">
+                <label for="ContactFormSubject" class="contact-form__label">
+                  {{ 'contact.form.subject' | t }}
+                </label>
+                <select id="ContactFormSubject" name="contact[{{ 'contact.form.subject' | t }}]" class="contact-form__select">
+                  <option value="">{{ 'contact.form.subject_placeholder' | t }}</option>
+                  <option value="general">{{ 'contact.form.subject_general' | t }}</option>
+                  <option value="property_inquiry">{{ 'contact.form.subject_property' | t }}</option>
+                  <option value="agent_services">{{ 'contact.form.subject_agent' | t }}</option>
+                  <option value="partnership">{{ 'contact.form.subject_partnership' | t }}</option>
+                  <option value="support">{{ 'contact.form.subject_support' | t }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="contact-form__field contact-form__field--full">
+              <label for="ContactFormMessage" class="contact-form__label">
+                {{ 'contact.form.message' | t }} <span class="contact-form__required">*</span>
+              </label>
+              <textarea 
+                id="ContactFormMessage" 
+                name="contact[{{ 'contact.form.message' | t }}]" 
+                class="contact-form__textarea{% if form.errors contains 'body' %} contact-form__textarea--error{% endif %}"
+                rows="6"
+                required
+                aria-required="true"
+                placeholder="{{ 'contact.form.message_placeholder' | t }}"
+              >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+            </div>
+
+            <div class="contact-form__actions">
+              <button type="submit" class="btn btn--primary contact-form__submit">
+                <span class="contact-form__submit-text">{{ 'contact.form.send' | t }}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="contact-form__submit-icon">
+                  <path d="M14.5 1.5l-6 6M14.5 1.5l-4.5 13-2-6-6-2 13-4.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          {% endform %}
+        </div>
+      </div>
+
+      {% comment %} Contact Information {% endcomment %}
+      <div class="contact-info-section">
+        <div class="contact-info">
+          <h2 class="contact-info__title">{{ 'contact.info.title' | t }}</h2>
+          <p class="contact-info__subtitle">{{ 'contact.info.subtitle' | t }}</p>
+          
+          <div class="contact-info__grid">
+            {% if settings.footer_phone %}
+              <div class="contact-info__item">
+                <div class="contact-info__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="contact-info__content">
+                  <h3 class="contact-info__label">{{ 'contact.info.phone' | t }}</h3>
+                  <a href="tel:{{ settings.footer_phone | replace: ' ', '' }}" class="contact-info__value">
+                    {{ settings.footer_phone }}
+                  </a>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if settings.footer_email %}
+              <div class="contact-info__item">
+                <div class="contact-info__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="contact-info__content">
+                  <h3 class="contact-info__label">{{ 'contact.info.email' | t }}</h3>
+                  <a href="mailto:{{ settings.footer_email }}" class="contact-info__value">
+                    {{ settings.footer_email }}
+                  </a>
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="contact-info__item">
+              <div class="contact-info__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="contact-info__content">
+                <h3 class="contact-info__label">{{ 'contact.info.address' | t }}</h3>
+                <div class="contact-info__value">
+                  <p>{{ 'contact.info.address_line_1' | t }}</p>
+                  <p>{{ 'contact.info.address_line_2' | t }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-info__item">
+              <div class="contact-info__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                  <polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="contact-info__content">
+                <h3 class="contact-info__label">{{ 'contact.info.hours' | t }}</h3>
+                <div class="contact-info__value">
+                  <p>{{ 'contact.info.hours_weekdays' | t }}</p>
+                  <p>{{ 'contact.info.hours_weekend' | t }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% comment %} Map or Additional Contact Content {% endcomment %}
+        <div class="contact-map">
+          <div class="contact-map__placeholder">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+              <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="2"/>
+              <path d="M70 40c0 11.05-20 30-20 30s-20-18.95-20-30a20 20 0 0 1 40 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="50" cy="40" r="8" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <p>{{ 'contact.map.placeholder' | t }}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {% comment %} Additional Contact Sections {% endcomment %}
+    <div class="contact-additional">
+      
+      {% comment %} FAQ Section {% endcomment %}
+      <div class="contact-faq">
+        <h2 class="contact-faq__title">{{ 'contact.faq.title' | t }}</h2>
+        <div class="contact-faq__grid">
+          <div class="contact-faq__item">
+            <h3 class="contact-faq__question">{{ 'contact.faq.question_1' | t }}</h3>
+            <p class="contact-faq__answer">{{ 'contact.faq.answer_1' | t }}</p>
+          </div>
+          <div class="contact-faq__item">
+            <h3 class="contact-faq__question">{{ 'contact.faq.question_2' | t }}</h3>
+            <p class="contact-faq__answer">{{ 'contact.faq.answer_2' | t }}</p>
+          </div>
+          <div class="contact-faq__item">
+            <h3 class="contact-faq__question">{{ 'contact.faq.question_3' | t }}</h3>
+            <p class="contact-faq__answer">{{ 'contact.faq.answer_3' | t }}</p>
+          </div>
+          <div class="contact-faq__item">
+            <h3 class="contact-faq__question">{{ 'contact.faq.question_4' | t }}</h3>
+            <p class="contact-faq__answer">{{ 'contact.faq.answer_4' | t }}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Form submission handling
+    const contactForm = document.querySelector('.contact-form');
+    const submitButton = contactForm?.querySelector('.contact-form__submit');
+    
+    if (contactForm && submitButton) {
+      contactForm.addEventListener('submit', function(e) {
+        // Add loading state
+        submitButton.disabled = true;
+        submitButton.classList.add('btn--loading');
+        
+        // Re-enable after a delay (in case of errors)
+        setTimeout(() => {
+          submitButton.disabled = false;
+          submitButton.classList.remove('btn--loading');
+        }, 5000);
+      });
+    }
+
+    // Auto-hide success message after 5 seconds
+    const successMessage = document.querySelector('.contact-form__success');
+    if (successMessage) {
+      setTimeout(() => {
+        successMessage.style.opacity = '0';
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 300);
+      }, 5000);
+    }
+  });
+</script>

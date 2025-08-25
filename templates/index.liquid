@@ -1,6 +1,24 @@
+{% comment %}
+  Homepage Template - Real Estate Landing Page
+{% endcomment %}
+
+{% comment %} Hero Section with Search {% endcomment %}
+{% section 'hero' %}
+
+{% comment %} Search Form Section {% endcomment %}
+{% section 'search-form' %}
+
+{% comment %} Featured Properties {% endcomment %}
+{% section 'featured-properties' %}
+
+{% comment %} Additional Homepage Content {% endcomment %}
 <div class="page-width">
-  {% section 'hero-banner' %}
-  <div class="main-content">
-    {% section 'featured-collection' %}
+  <div class="homepage-content">
+    
+    {% comment %} Custom sections can be added here via theme editor {% endcomment %}
+    {% for section in page.sections %}
+      {% render section %}
+    {% endfor %}
+    
   </div>
 </div>

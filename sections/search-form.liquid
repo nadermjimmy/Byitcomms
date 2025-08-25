@@ -1,0 +1,253 @@
+{% comment %}
+  Search Form Section - Advanced property search with filters
+{% endcomment %}
+
+<section class="search-form-section" data-section-id="{{ section.id }}" data-section-type="search-form">
+  <div class="page-width">
+    <div class="search-form-section__inner">
+      
+      {% if section.settings.title != blank %}
+        <div class="search-form-section__header">
+          <h2 class="search-form-section__title">{{ section.settings.title }}</h2>
+          {% if section.settings.subtitle != blank %}
+            <p class="search-form-section__subtitle">{{ section.settings.subtitle }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="search-form-section__content">
+        
+        {% comment %} Search Tabs {% endcomment %}
+        {% if section.settings.show_tabs %}
+          <div class="search-tabs" data-search-tabs>
+            <button type="button" class="search-tab search-tab--active" data-tab="compounds">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 21h18M3 21V9l9-6 9 6v12M3 21h18M9 21V12h6v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ 'search.compounds' | t }}
+              {% if section.settings.show_counts %}
+                <span class="search-tab__count">({{ collections['compounds'].products_count | default: 0 }})</span>
+              {% endif %}
+            </button>
+            
+            <button type="button" class="search-tab" data-tab="properties">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 21h18M5 21V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v14M9 21V12a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ 'search.properties' | t }}
+              {% if section.settings.show_counts %}
+                <span class="search-tab__count">({{ collections['properties'].products_count | default: 0 }})</span>
+              {% endif %}
+            </button>
+          </div>
+        {% endif %}
+
+        {% comment %} Search Forms {% endcomment %}
+        <div class="search-forms">
+          
+          {% comment %} Compounds Search Form {% endcomment %}
+          <form class="search-form search-form--compounds{% if section.settings.show_tabs %} search-form--active{% endif %}" 
+                action="{{ routes.search_url }}" 
+                method="get" 
+                role="search"
+                data-search-form="compounds">
+            
+            <input type="hidden" name="type" value="product">
+            <input type="hidden" name="options[prefix]" value="last">
+            <input type="hidden" name="collection" value="compounds">
+            
+            <div class="search-form__main">
+              <div class="search-form__input-group">
+                <label for="compounds-search" class="search-form__label">{{ 'search.search_compounds' | t }}</label>
+                <div class="search-form__input-wrapper">
+                  <input
+                    type="search"
+                    id="compounds-search"
+                    name="q"
+                    placeholder="{{ section.settings.compounds_placeholder | default: 'Search by compound name, developer, or location' }}"
+                    class="search-form__input"
+                    autocomplete="off"
+                    value="{{ search.terms | escape }}"
+                  >
+                  <button type="submit" class="search-form__submit">
+                    {% render 'icon-search' %}
+                    <span class="search-form__submit-text">{{ 'search.search' | t }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="search-form__filters">
+              {% render 'search-filters' %}
+            </div>
+          </form>
+
+          {% comment %} Properties Search Form {% endcomment %}
+          <form class="search-form search-form--properties{% unless section.settings.show_tabs %} search-form--active{% endunless %}" 
+                action="{{ routes.search_url }}" 
+                method="get" 
+                role="search"
+                data-search-form="properties">
+            
+            <input type="hidden" name="type" value="product">
+            <input type="hidden" name="options[prefix]" value="last">
+            <input type="hidden" name="collection" value="properties">
+            
+            <div class="search-form__main">
+              <div class="search-form__input-group">
+                <label for="properties-search" class="search-form__label">{{ 'search.search_properties' | t }}</label>
+                <div class="search-form__input-wrapper">
+                  <input
+                    type="search"
+                    id="properties-search"
+                    name="q"
+                    placeholder="{{ section.settings.properties_placeholder | default: 'Search by property type, location, or developer' }}"
+                    class="search-form__input"
+                    autocomplete="off"
+                    value="{{ search.terms | escape }}"
+                  >
+                  <button type="submit" class="search-form__submit">
+                    {% render 'icon-search' %}
+                    <span class="search-form__submit-text">{{ 'search.search' | t }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="search-form__filters">
+              {% render 'search-filters' %}
+            </div>
+          </form>
+
+        </div>
+
+        {% comment %} Popular Searches {% endcomment %}
+        {% if section.settings.show_popular_searches %}
+          <div class="search-form__popular">
+            <h3 class="search-form__popular-title">{{ 'search.popular_searches' | t }}</h3>
+            <div class="search-form__popular-tags">
+              {% for block in section.blocks %}
+                {% if block.type == 'popular_search' %}
+                  <a href="{{ routes.search_url }}?q={{ block.settings.search_term | url_encode }}&type=product" 
+                     class="search-form__popular-tag">
+                    {{ block.settings.search_term }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search Form",
+  "tag": "section",
+  "class": "section-search-form",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Find Your Perfect Property"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Search through thousands of properties and compounds"
+    },
+    {
+      "type": "header",
+      "content": "Search Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tabs",
+      "label": "Show search tabs",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counts",
+      "label": "Show property counts in tabs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "compounds_placeholder",
+      "label": "Compounds search placeholder",
+      "default": "Search by compound name, developer, or location"
+    },
+    {
+      "type": "text",
+      "id": "properties_placeholder",
+      "label": "Properties search placeholder",
+      "default": "Search by property type, location, or developer"
+    },
+    {
+      "type": "header",
+      "content": "Popular Searches"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popular_searches",
+      "label": "Show popular searches",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "popular_search",
+      "name": "Popular Search",
+      "settings": [
+        {
+          "type": "text",
+          "id": "search_term",
+          "label": "Search term",
+          "placeholder": "New Cairo Villas"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search Form",
+      "blocks": [
+        {
+          "type": "popular_search",
+          "settings": {
+            "search_term": "New Cairo"
+          }
+        },
+        {
+          "type": "popular_search",
+          "settings": {
+            "search_term": "Villas"
+          }
+        },
+        {
+          "type": "popular_search",
+          "settings": {
+            "search_term": "Apartments"
+          }
+        },
+        {
+          "type": "popular_search",
+          "settings": {
+            "search_term": "North Coast"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

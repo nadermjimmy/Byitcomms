@@ -1,0 +1,26 @@
+{
+  "current": {
+    "logo_width": "150",
+    "color_primary": "#1a1a1a",
+    "color_secondary": "#ff6b35",
+    "color_accent": "#2e8b57",
+    "color_text": "#333333",
+    "color_background": "#ffffff",
+    "font_body": "assistant_n4",
+    "font_heading": "assistant_n6",
+    "font_size_base": "16",
+    "hero_title": "YOUR HOME IN A COMPOUND",
+    "hero_subtitle": "Find your perfect home in the best compounds across Egypt",
+    "show_search_tabs": true,
+    "search_placeholder": "Search by location, compound, or developer",
+    "enable_location_filter": true,
+    "enable_price_filter": true,
+    "enable_bedrooms_filter": true,
+    "enable_bathrooms_filter": true,
+    "enable_arabic": true,
+    "arabic_label": "العربية",
+    "footer_text": "<p>Find your dream home with Nawy - Egypt's leading real estate platform</p>",
+    "footer_phone": "+20 123 456 7890",
+    "footer_email": "info@nawy.com"
+  }
+}

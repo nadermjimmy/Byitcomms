@@ -1,0 +1,190 @@
+{% comment %}
+  Announcement Bar Section
+{% endcomment %}
+
+{% if section.settings.show_announcement and section.settings.announcement_text != blank %}
+  <div class="announcement-bar" data-section-id="{{ section.id }}" data-section-type="announcement-bar">
+    <div class="page-width">
+      <div class="announcement-bar__content">
+        {% if section.settings.announcement_icon %}
+          <div class="announcement-bar__icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+            </svg>
+          </div>
+        {% endif %}
+        
+        <div class="announcement-bar__text">
+          {{ section.settings.announcement_text }}
+        </div>
+        
+        {% if section.settings.announcement_link != blank %}
+          <a href="{{ section.settings.announcement_link }}" class="announcement-bar__link">
+            {{ section.settings.announcement_link_text | default: 'Learn More' }}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {% endif %}
+        
+        {% if section.settings.show_close_button %}
+          <button type="button" class="announcement-bar__close" data-announcement-close>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="visually-hidden">Close announcement</span>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .announcement-bar {
+      background-color: {{ section.settings.background_color | default: '#1a1a1a' }};
+      color: {{ section.settings.text_color | default: '#ffffff' }};
+      padding: 12px 0;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    .announcement-bar__content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .announcement-bar__icon {
+      display: flex;
+      align-items: center;
+    }
+    
+    .announcement-bar__text {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .announcement-bar__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: inherit;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+    
+    .announcement-bar__link:hover {
+      opacity: 0.8;
+    }
+    
+    .announcement-bar__close {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+    
+    .announcement-bar__close:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .announcement-bar__content {
+        flex-direction: column;
+        gap: 4px;
+      }
+      
+      .announcement-bar__close {
+        position: absolute;
+        top: 12px;
+        right: 20px;
+        margin: 0;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const closeButton = document.querySelector('[data-announcement-close]');
+      const announcementBar = document.querySelector('.announcement-bar');
+      
+      if (closeButton && announcementBar) {
+        closeButton.addEventListener('click', function() {
+          announcementBar.style.display = 'none';
+          // Store closed state in localStorage
+          localStorage.setItem('announcement_closed_{{ section.id }}', 'true');
+        });
+        
+        // Check if announcement was previously closed
+        if (localStorage.getItem('announcement_closed_{{ section.id }}') === 'true') {
+          announcementBar.style.display = 'none';
+        }
+      }
+    });
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Welcome to Nawy - Find your dream home today!"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement link"
+    },
+    {
+      "type": "text",
+      "id": "announcement_link_text",
+      "label": "Link text",
+      "default": "Learn More"
+    },
+    {
+      "type": "checkbox",
+      "id": "announcement_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close_button",
+      "label": "Show close button",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}

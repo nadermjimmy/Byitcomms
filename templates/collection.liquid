@@ -1,0 +1,258 @@
+{% comment %}
+  Collection Template - Properties Listing Page
+{% endcomment %}
+
+{% paginate collection.products by 24 %}
+
+<div class="collection-page" data-section-id="collection-{{ collection.id }}" data-section-type="collection">
+  <div class="page-width">
+    
+    {% comment %} Collection Header {% endcomment %}
+    <header class="collection-header">
+      <div class="collection-header__content">
+        <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+          <a href="{{ routes.root_url }}" class="breadcrumb__link">{{ 'general.breadcrumbs.home' | t }}</a>
+          <span class="breadcrumb__separator">
+            <svg width="6" height="10" viewBox="0 0 6 10" fill="none">
+              <path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="breadcrumb__text">{{ collection.title }}</span>
+        </nav>
+        
+        <h1 class="collection-header__title">{{ collection.title }}</h1>
+        
+        {% if collection.description != blank %}
+          <div class="collection-header__description rte">
+            {{ collection.description }}
+          </div>
+        {% endif %}
+        
+        <div class="collection-header__meta">
+          <span class="collection-header__count">
+            {{ 'collections.general.items_with_count' | t: count: collection.products_count }}
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <div class="collection-content">
+      
+      {% comment %} Filters Sidebar {% endcomment %}
+      <aside class="collection-sidebar" data-collection-sidebar>
+        <div class="collection-sidebar__header">
+          <h3 class="collection-sidebar__title">{{ 'collections.filters.title' | t }}</h3>
+          <button type="button" class="collection-sidebar__toggle" data-sidebar-toggle>
+            <span class="collection-sidebar__toggle-text">{{ 'collections.filters.filter' | t }}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="collection-sidebar__content" data-sidebar-content>
+          <form class="collection-filters" action="{{ collection.url }}" method="get" data-collection-filters>
+            {% render 'search-filters' %}
+            
+            {% comment %} Price Range Filter {% endcomment %}
+            <div class="collection-filter">
+              <h4 class="collection-filter__title">{{ 'collections.filters.price' | t }}</h4>
+              <div class="collection-filter__content">
+                <div class="price-range">
+                  <div class="price-range__inputs">
+                    <input type="number" name="filter.v.price.gte" placeholder="{{ 'collections.filters.price_from' | t }}" value="{{ collection.filters.price.min }}" class="price-range__input">
+                    <span class="price-range__separator">-</span>
+                    <input type="number" name="filter.v.price.lte" placeholder="{{ 'collections.filters.price_to' | t }}" value="{{ collection.filters.price.max }}" class="price-range__input">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% comment %} Clear Filters {% endcomment %}
+            {% if collection.filters != empty %}
+              <div class="collection-filter">
+                <a href="{{ collection.url }}" class="collection-filter__clear btn btn--outline">
+                  {{ 'collections.filters.clear_all' | t }}
+                </a>
+              </div>
+            {% endif %}
+          </form>
+        </div>
+      </aside>
+
+      {% comment %} Main Collection Content {% endcomment %}
+      <main class="collection-main">
+        
+        {% comment %} Active Filters {% endcomment %}
+        {% if collection.filters != empty %}
+          <div class="collection-active-filters">
+            <div class="collection-active-filters__header">
+              <span class="collection-active-filters__title">{{ 'collections.filters.active_filters' | t }}:</span>
+            </div>
+            <div class="collection-active-filters__list">
+              {% for filter in collection.filters %}
+                <span class="collection-active-filters__item">
+                  {{ filter.label }}: {{ filter.value }}
+                  <a href="{{ filter.url_to_remove }}" class="collection-active-filters__remove" aria-label="{{ 'collections.filters.remove_filter' | t }}">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% comment %} Toolbar with sorting and view options {% endcomment %}
+        <div class="collection-toolbar">
+          <div class="collection-toolbar__item collection-toolbar__results">
+            <span class="collection-toolbar__text">
+              {% if collection.products_count == 0 %}
+                {{ 'collections.general.no_matches' | t }}
+              {% else %}
+                {{ 'collections.general.items_with_count' | t: count: collection.products_count }}
+              {% endif %}
+            </span>
+          </div>
+          
+          <div class="collection-toolbar__item collection-toolbar__sort">
+            <label for="SortBy" class="collection-toolbar__label">{{ 'collections.sorting.title' | t }}:</label>
+            <select name="sort_by" id="SortBy" class="collection-toolbar__select" data-sort-by>
+              <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+              <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+              <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+              <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+              <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+              <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+              <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+              <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+            </select>
+          </div>
+
+          <div class="collection-toolbar__item collection-toolbar__view">
+            <button type="button" class="collection-toolbar__view-btn collection-toolbar__view-btn--grid collection-toolbar__view-btn--active" data-view="grid" aria-label="{{ 'collections.general.grid_view' | t }}">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="1" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="9" y="1" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="1" y="9" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="9" y="9" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </button>
+            <button type="button" class="collection-toolbar__view-btn collection-toolbar__view-btn--list" data-view="list" aria-label="{{ 'collections.general.list_view' | t }}">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M5 4h9M5 8h9M5 12h9M1 4h1M1 8h1M1 12h1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {% comment %} Products Grid {% endcomment %}
+        <div class="collection-products" data-collection-products>
+          {% if collection.products.size > 0 %}
+            <div class="collection-products__grid" data-products-grid>
+              {% for product in collection.products %}
+                <div class="collection-products__item">
+                  {% render 'property-card', property: product, card_style: 'collection' %}
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            {% comment %} Empty State {% endcomment %}
+            <div class="collection-empty">
+              <div class="collection-empty__content">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" class="collection-empty__icon">
+                  <path d="M32 56c13.255 0 24-10.745 24-24S45.255 8 32 8 8 18.745 8 32s10.745 24 24 24z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M22 22l20 20M42 22l-20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h3 class="collection-empty__title">{{ 'collections.general.no_matches' | t }}</h3>
+                <p class="collection-empty__text">{{ 'collections.general.no_products_html' | t }}</p>
+                <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+                  {{ 'collections.general.view_all' | t }}
+                </a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        {% comment %} Pagination {% endcomment %}
+        {% if paginate.pages > 1 %}
+          <nav class="pagination" role="navigation" aria-label="pagination">
+            {% if paginate.previous %}
+              <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t }}">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M10 12l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {{ 'general.pagination.previous' | t }}
+              </a>
+            {% endif %}
+
+            {% for part in paginate.parts %}
+              {% if part.is_link %}
+                <a href="{{ part.url }}" class="pagination__item">{{ part.title }}</a>
+              {% else %}
+                {% if part.title == paginate.current_page %}
+                  <span class="pagination__item pagination__item--current">{{ part.title }}</span>
+                {% else %}
+                  <span class="pagination__item pagination__item--gap">{{ part.title }}</span>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% if paginate.next %}
+              <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t }}">
+                {{ 'general.pagination.next' | t }}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            {% endif %}
+          </nav>
+        {% endif %}
+
+      </main>
+    </div>
+  </div>
+</div>
+
+{% endpaginate %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handle sort by dropdown
+    const sortSelect = document.querySelector('[data-sort-by]');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function() {
+        const url = new URL(window.location);
+        url.searchParams.set('sort_by', this.value);
+        window.location = url.toString();
+      });
+      
+      // Set current sort value
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentSort = urlParams.get('sort_by');
+      if (currentSort) {
+        sortSelect.value = currentSort;
+      }
+    }
+
+    // Handle view toggle
+    const viewButtons = document.querySelectorAll('[data-view]');
+    const productsGrid = document.querySelector('[data-products-grid]');
+    
+    viewButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const view = this.dataset.view;
+        
+        // Update active state
+        viewButtons.forEach(btn => btn.classList.remove('collection-toolbar__view-btn--active'));
+        this.classList.add('collection-toolbar__view-btn--active');
+        
+        // Update grid class
+        if (productsGrid) {
+          productsGrid.className = view === 'list' ? 'collection-products__list' : 'collection-products__grid';
+        }
+      });
+    });
+  });
+</script>

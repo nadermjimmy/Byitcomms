@@ -1,0 +1,266 @@
+{% comment %}
+  Hero Section - Main banner with search functionality
+{% endcomment %}
+
+<section class="hero" data-section-id="{{ section.id }}" data-section-type="hero">
+  <div class="hero__background">
+    {% if section.settings.background_image != blank %}
+      <div class="hero__image-wrapper">
+        <img
+          src="{{ section.settings.background_image | image_url: width: 1920 }}"
+          alt="{{ section.settings.background_image.alt | escape }}"
+          srcset="
+            {{ section.settings.background_image | image_url: width: 750 }} 750w,
+            {{ section.settings.background_image | image_url: width: 1080 }} 1080w,
+            {{ section.settings.background_image | image_url: width: 1440 }} 1440w,
+            {{ section.settings.background_image | image_url: width: 1920 }} 1920w
+          "
+          sizes="100vw"
+          loading="eager"
+          class="hero__image"
+        >
+      </div>
+    {% endif %}
+    
+    {% if section.settings.background_overlay %}
+      <div class="hero__overlay" style="background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});"></div>
+    {% endif %}
+  </div>
+
+  <div class="hero__content">
+    <div class="page-width">
+      <div class="hero__inner">
+        
+        {% comment %} Hero Text Content {% endcomment %}
+        <div class="hero__text">
+          {% if section.settings.title != blank %}
+            <h1 class="hero__title">{{ section.settings.title }}</h1>
+          {% endif %}
+          
+          {% if section.settings.subtitle != blank %}
+            <p class="hero__subtitle">{{ section.settings.subtitle }}</p>
+          {% endif %}
+        </div>
+
+        {% comment %} Search Form {% endcomment %}
+        <div class="hero__search">
+          {% if section.settings.show_search_tabs %}
+            <div class="hero__search-tabs">
+              <button type="button" class="hero__tab hero__tab--active" data-tab="compounds">
+                {{ 'search.compounds' | t }}
+              </button>
+              <button type="button" class="hero__tab" data-tab="properties">
+                {{ 'search.properties' | t }}
+              </button>
+            </div>
+          {% endif %}
+
+          <form class="hero__search-form" action="{{ routes.search_url }}" method="get" role="search">
+            <div class="hero__search-content" data-search-content="compounds">
+              <div class="hero__search-main">
+                <div class="hero__search-input-wrapper">
+                  <label for="hero-search-compounds" class="visually-hidden">{{ 'search.search_compounds' | t }}</label>
+                  <input
+                    type="search"
+                    id="hero-search-compounds"
+                    name="q"
+                    placeholder="{{ section.settings.search_placeholder | default: settings.search_placeholder }}"
+                    class="hero__search-input"
+                    autocomplete="off"
+                    value="{{ search.terms | escape }}"
+                  >
+                  <input type="hidden" name="type" value="product">
+                  <input type="hidden" name="options[prefix]" value="last">
+                  
+                  <button type="submit" class="hero__search-submit">
+                    {% render 'icon-search' %}
+                    <span class="visually-hidden">{{ 'search.submit' | t }}</span>
+                  </button>
+                </div>
+              </div>
+              
+              {% comment %} Quick Filters for Compounds {% endcomment %}
+              <div class="hero__quick-filters">
+                {% render 'search-filters' %}
+              </div>
+            </div>
+
+            <div class="hero__search-content" data-search-content="properties" style="display: none;">
+              <div class="hero__search-main">
+                <div class="hero__search-input-wrapper">
+                  <label for="hero-search-properties" class="visually-hidden">{{ 'search.search_properties' | t }}</label>
+                  <input
+                    type="search"
+                    id="hero-search-properties"
+                    name="q"
+                    placeholder="{{ 'search.search_properties_placeholder' | t }}"
+                    class="hero__search-input"
+                    autocomplete="off"
+                    value="{{ search.terms | escape }}"
+                  >
+                  <input type="hidden" name="type" value="product">
+                  <input type="hidden" name="options[prefix]" value="last">
+                  
+                  <button type="submit" class="hero__search-submit">
+                    {% render 'icon-search' %}
+                    <span class="visually-hidden">{{ 'search.submit' | t }}</span>
+                  </button>
+                </div>
+              </div>
+              
+              {% comment %} Quick Filters for Properties {% endcomment %}
+              <div class="hero__quick-filters">
+                {% render 'search-filters' %}
+              </div>
+            </div>
+          </form>
+        </div>
+
+        {% comment %} Hero Stats or Additional Content {% endcomment %}
+        {% if section.settings.show_stats %}
+          <div class="hero__stats">
+            {% if section.settings.stat_1_number != blank %}
+              <div class="hero__stat">
+                <span class="hero__stat-number">{{ section.settings.stat_1_number }}</span>
+                <span class="hero__stat-label">{{ section.settings.stat_1_label }}</span>
+              </div>
+            {% endif %}
+            
+            {% if section.settings.stat_2_number != blank %}
+              <div class="hero__stat">
+                <span class="hero__stat-number">{{ section.settings.stat_2_number }}</span>
+                <span class="hero__stat-label">{{ section.settings.stat_2_label }}</span>
+              </div>
+            {% endif %}
+            
+            {% if section.settings.stat_3_number != blank %}
+              <div class="hero__stat">
+                <span class="hero__stat-number">{{ section.settings.stat_3_number }}</span>
+                <span class="hero__stat-label">{{ section.settings.stat_3_label }}</span>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "class": "section-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "checkbox",
+      "id": "background_overlay",
+      "label": "Add background overlay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "YOUR HOME IN A COMPOUND"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Find your perfect home in the best compounds across Egypt"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search_tabs",
+      "label": "Show Compounds/Properties tabs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder text",
+      "default": "Search by location, compound, or developer"
+    },
+    {
+      "type": "header",
+      "content": "Statistics"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show statistics",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "stat_1_number",
+      "label": "Statistic 1 number",
+      "default": "10,000+"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Statistic 1 label",
+      "default": "Properties"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_number",
+      "label": "Statistic 2 number",
+      "default": "500+"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Statistic 2 label",
+      "default": "Compounds"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_number",
+      "label": "Statistic 3 number",
+      "default": "50,000+"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Statistic 3 label",
+      "default": "Happy Customers"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

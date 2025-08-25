@@ -1,34 +1,79 @@
 <!DOCTYPE html>
-<html lang="{{ request.locale.iso_code }}">
+<html lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
   <link rel="canonical" href="{{ canonical_url }}">
   
+  <!-- SEO Meta Tags -->
   <title>{{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
 
   {% if page_description %}
     <meta name="description" content="{{ page_description | escape }}">
   {% endif %}
 
+  {% if template.name == 'product' %}
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="{{ product.title | escape }}">
+    <meta property="og:description" content="{{ product.description | strip_html | truncate: 160 | escape }}">
+    {% if product.featured_media %}
+      <meta property="og:image" content="{{ product.featured_media | image_url: width: 1200 }}">
+    {% endif %}
+    <meta property="og:url" content="{{ request.origin }}{{ product.url }}">
+  {% endif %}
+
+  <!-- Preload key fonts -->
+  <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+  
+  <!-- Stylesheets -->
   {{ 'base.css' | asset_url | stylesheet_tag }}
   {{ 'theme.css' | asset_url | stylesheet_tag }}
-  {{ 'theme.js' | asset_url | script_tag }}
-  {{ 'global.js' | asset_url | script_tag }}
+  
+  <!-- Theme Variables -->
+  <style>
+    :root {
+      --color-primary: {{ settings.color_primary }};
+      --color-secondary: {{ settings.color_secondary }};
+      --color-accent: {{ settings.color_accent }};
+      --color-text: {{ settings.color_text }};
+      --color-background: {{ settings.color_background }};
+      --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      --font-size-base: {{ settings.font_size_base }}px;
+    }
+  </style>
+  
+  {{ settings.font_body | font_face: font_display: 'swap' }}
+  {{ settings.font_heading | font_face: font_display: 'swap' }}
 
   {{ content_for_header }}
 </head>
 
-<body class="gradient{% if template.name == 'index' %} homepage{% endif %}">
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}{% if request.locale.iso_code == 'ar' %} rtl{% endif %}">
+  <!-- Skip to content link for accessibility -->
+  <a class="skip-to-content-link visually-hidden" href="#MainContent">
+    {{ 'accessibility.skip_to_content' | t }}
+  </a>
+
+  {% comment %} Announcement bar {% endcomment %}
   {% section 'announcement-bar' %}
+  
+  {% comment %} Header with navigation {% endcomment %}
   {% section 'header' %}
 
-  <main role="main" id="MainContent">
+  <main role="main" id="MainContent" class="main-content">
     {{ content_for_layout }}
   </main>
 
+  {% comment %} Footer {% endcomment %}
   {% section 'footer' %}
+
+  <!-- JavaScript -->
+  {{ 'theme.js' | asset_url | script_tag }}
+  {% if template.name == 'search' or template.name == 'index' %}
+    {{ 'search.js' | asset_url | script_tag }}
+  {% endif %}
 </body>
 </html>

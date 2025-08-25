@@ -1,0 +1,191 @@
+{% comment %}
+  Search Filters Component
+  Renders property search filters
+{% endcomment %}
+
+<div class="search-filters" data-search-filters>
+  <div class="search-filters__grid">
+    
+    {% comment %} Location Filter {% endcomment %}
+    {% if settings.enable_location_filter %}
+      <div class="search-filter">
+        <label for="filter-location" class="search-filter__label">{{ 'search.location' | t }}</label>
+        <select id="filter-location" name="location" class="search-filter__select">
+          <option value="">{{ 'search.all_locations' | t }}</option>
+          <option value="new-cairo">New Cairo</option>
+          <option value="new-capital">New Administrative Capital</option>
+          <option value="6th-october">6th of October</option>
+          <option value="sheikh-zayed">Sheikh Zayed</option>
+          <option value="north-coast">North Coast</option>
+          <option value="east-cairo">East Cairo</option>
+          <option value="west-cairo">West Cairo</option>
+        </select>
+        <svg class="search-filter__icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+          <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    {% endif %}
+
+    {% comment %} Property Type Filter {% endcomment %}
+    <div class="search-filter">
+      <label for="filter-type" class="search-filter__label">{{ 'search.property_type' | t }}</label>
+      <select id="filter-type" name="property_type" class="search-filter__select">
+        <option value="">{{ 'search.all_types' | t }}</option>
+        <option value="apartment">{{ 'properties.apartment' | t }}</option>
+        <option value="villa">{{ 'properties.villa' | t }}</option>
+        <option value="townhouse">{{ 'properties.townhouse' | t }}</option>
+        <option value="duplex">{{ 'properties.duplex' | t }}</option>
+        <option value="studio">{{ 'properties.studio' | t }}</option>
+        <option value="penthouse">{{ 'properties.penthouse' | t }}</option>
+      </select>
+      <svg class="search-filter__icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+        <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    {% comment %} Bedrooms Filter {% endcomment %}
+    {% if settings.enable_bedrooms_filter %}
+      <div class="search-filter">
+        <label for="filter-bedrooms" class="search-filter__label">{{ 'search.bedrooms' | t }}</label>
+        <select id="filter-bedrooms" name="bedrooms" class="search-filter__select">
+          <option value="">{{ 'search.any_bedrooms' | t }}</option>
+          <option value="studio">{{ 'properties.studio' | t }}</option>
+          <option value="1">1 {{ 'properties.bedroom' | t }}</option>
+          <option value="2">2 {{ 'properties.bedrooms' | t }}</option>
+          <option value="3">3 {{ 'properties.bedrooms' | t }}</option>
+          <option value="4">4 {{ 'properties.bedrooms' | t }}</option>
+          <option value="5">5+ {{ 'properties.bedrooms' | t }}</option>
+        </select>
+        <svg class="search-filter__icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+          <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    {% endif %}
+
+    {% comment %} Bathrooms Filter {% endcomment %}
+    {% if settings.enable_bathrooms_filter %}
+      <div class="search-filter">
+        <label for="filter-bathrooms" class="search-filter__label">{{ 'search.bathrooms' | t }}</label>
+        <select id="filter-bathrooms" name="bathrooms" class="search-filter__select">
+          <option value="">{{ 'search.any_bathrooms' | t }}</option>
+          <option value="1">1 {{ 'properties.bathroom' | t }}</option>
+          <option value="2">2 {{ 'properties.bathrooms' | t }}</option>
+          <option value="3">3 {{ 'properties.bathrooms' | t }}</option>
+          <option value="4">4+ {{ 'properties.bathrooms' | t }}</option>
+        </select>
+        <svg class="search-filter__icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+          <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    {% endif %}
+
+    {% comment %} Price Range Filter {% endcomment %}
+    {% if settings.enable_price_filter %}
+      <div class="search-filter search-filter--price">
+        <label class="search-filter__label">{{ 'search.price_range' | t }}</label>
+        <div class="search-filter__price-inputs">
+          <div class="search-filter__price-input">
+            <label for="filter-price-min" class="visually-hidden">{{ 'search.min_price' | t }}</label>
+            <input 
+              type="number" 
+              id="filter-price-min" 
+              name="price_min" 
+              placeholder="{{ 'search.min_price' | t }}"
+              class="search-filter__input"
+              min="0"
+              step="50000"
+            >
+          </div>
+          <span class="search-filter__price-separator">-</span>
+          <div class="search-filter__price-input">
+            <label for="filter-price-max" class="visually-hidden">{{ 'search.max_price' | t }}</label>
+            <input 
+              type="number" 
+              id="filter-price-max" 
+              name="price_max" 
+              placeholder="{{ 'search.max_price' | t }}"
+              class="search-filter__input"
+              min="0"
+              step="50000"
+            >
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% comment %} Search Button {% endcomment %}
+    <div class="search-filter search-filter--action">
+      <button type="submit" class="btn btn--primary search-filter__submit">
+        {% render 'icon-search' %}
+        {{ 'search.search_properties' | t }}
+      </button>
+    </div>
+
+  </div>
+
+  {% comment %} Advanced Filters Toggle {% endcomment %}
+  <div class="search-filters__advanced">
+    <button type="button" class="search-filters__advanced-toggle" data-advanced-toggle>
+      <span class="search-filters__advanced-text">{{ 'search.advanced_filters' | t }}</span>
+      <svg class="search-filters__advanced-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+        <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    
+    <div class="search-filters__advanced-content" data-advanced-content>
+      <div class="search-filters__advanced-grid">
+        
+        {% comment %} Area Filter {% endcomment %}
+        <div class="search-filter">
+          <label class="search-filter__label">{{ 'search.area_range' | t }} ({{ 'properties.sqm' | t }})</label>
+          <div class="search-filter__range-inputs">
+            <input 
+              type="number" 
+              name="area_min" 
+              placeholder="{{ 'search.min_area' | t }}"
+              class="search-filter__input"
+              min="0"
+            >
+            <span class="search-filter__separator">-</span>
+            <input 
+              type="number" 
+              name="area_max" 
+              placeholder="{{ 'search.max_area' | t }}"
+              class="search-filter__input"
+              min="0"
+            >
+          </div>
+        </div>
+
+        {% comment %} Completion Status {% endcomment %}
+        <div class="search-filter">
+          <label for="filter-completion" class="search-filter__label">{{ 'search.completion_status' | t }}</label>
+          <select id="filter-completion" name="completion_status" class="search-filter__select">
+            <option value="">{{ 'search.any_completion' | t }}</option>
+            <option value="ready">{{ 'properties.ready_to_move' | t }}</option>
+            <option value="under-construction">{{ 'properties.under_construction' | t }}</option>
+            <option value="off-plan">{{ 'properties.off_plan' | t }}</option>
+          </select>
+          <svg class="search-filter__icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+            <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        {% comment %} Payment Plan {% endcomment %}
+        <div class="search-filter">
+          <label for="filter-payment" class="search-filter__label">{{ 'search.payment_plan' | t }}</label>
+          <select id="filter-payment" name="payment_plan" class="search-filter__select">
+            <option value="">{{ 'search.any_payment' | t }}</option>
+            <option value="cash">{{ 'properties.cash' | t }}</option>
+            <option value="installments">{{ 'properties.installments' | t }}</option>
+            <option value="mortgage">{{ 'properties.mortgage' | t }}</option>
+          </select>
+          <svg class="search-filter__icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+            <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+{% comment %}
+  Property Card Component
+  Renders a property listing card with image, details, and actions
+{% endcomment %}
+
+{% assign property = property | default: product %}
+{% assign card_style = card_style | default: 'standard' %}
+
+<div class="property-card property-card--{{ card_style }}" data-property-id="{{ property.id }}">
+  {% if property.featured_media %}
+    <div class="property-card__image">
+      <a href="{{ property.url }}" class="property-card__image-link">
+        <img
+          src="{{ property.featured_media | image_url: width: 400 }}"
+          alt="{{ property.featured_media.alt | escape }}"
+          srcset="
+            {{ property.featured_media | image_url: width: 200 }} 200w,
+            {{ property.featured_media | image_url: width: 300 }} 300w,
+            {{ property.featured_media | image_url: width: 400 }} 400w,
+            {{ property.featured_media | image_url: width: 500 }} 500w
+          "
+          sizes="(min-width: 750px) calc((100vw - 10rem) / 2), calc(100vw - 3rem)"
+          loading="lazy"
+          class="property-card__img"
+        >
+      </a>
+      
+      {% comment %} Property badges {% endcomment %}
+      {% if property.available %}
+        <span class="property-card__badge property-card__badge--available">Available</span>
+      {% endif %}
+      
+      {% if property.tags contains 'featured' %}
+        <span class="property-card__badge property-card__badge--featured">Featured</span>
+      {% endif %}
+      
+      {% comment %} Wishlist button {% endcomment %}
+      <button class="property-card__wishlist" type="button" data-property-id="{{ property.id }}" aria-label="Add to wishlist">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 14s-6-4-6-8a3 3 0 0 1 6 0 3 3 0 0 1 6 0c0 4-6 8-6 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+      </button>
+    </div>
+  {% endif %}
+
+  <div class="property-card__content">
+    {% comment %} Property type and location {% endcomment %}
+    {% if property.metafields.property.type or property.metafields.property.location %}
+      <div class="property-card__meta">
+        {% if property.metafields.property.type %}
+          <span class="property-card__type">{{ property.metafields.property.type.value }}</span>
+        {% endif %}
+        {% if property.metafields.property.location %}
+          <span class="property-card__location">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+              <path d="M6 1c1.657 0 3 1.343 3 3 0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3zm0 10.5c.827 0 1.5-.673 1.5-1.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .827.673 1.5 1.5 1.5z"/>
+            </svg>
+            {{ property.metafields.property.location.value }}
+          </span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Property title {% endcomment %}
+    <h3 class="property-card__title">
+      <a href="{{ property.url }}" class="property-card__title-link">
+        {{ property.title }}
+      </a>
+    </h3>
+
+    {% comment %} Property details {% endcomment %}
+    {% if property.metafields.property.bedrooms or property.metafields.property.bathrooms or property.metafields.property.area %}
+      <div class="property-card__details">
+        {% if property.metafields.property.bedrooms %}
+          <span class="property-card__detail">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M3 6V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2m-10 0v6a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6m-10 0h10M6 9h4"/>
+            </svg>
+            {{ property.metafields.property.bedrooms.value }} {{ 'properties.beds' | t }}
+          </span>
+        {% endif %}
+        
+        {% if property.metafields.property.bathrooms %}
+          <span class="property-card__detail">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M2 6h12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6zm2-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3H4V3z"/>
+            </svg>
+            {{ property.metafields.property.bathrooms.value }} {{ 'properties.baths' | t }}
+          </span>
+        {% endif %}
+        
+        {% if property.metafields.property.area %}
+          <span class="property-card__detail">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M2 2v12h12V2H2zm10 10H4V4h8v8z"/>
+            </svg>
+            {{ property.metafields.property.area.value }} {{ 'properties.sqm' | t }}
+          </span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Property price {% endcomment %}
+    <div class="property-card__price">
+      {% if property.compare_at_price > property.price %}
+        <span class="property-card__price-compare">{{ property.compare_at_price | money }}</span>
+      {% endif %}
+      <span class="property-card__price-current">{{ property.price | money }}</span>
+      {% if property.metafields.property.payment_plan %}
+        <span class="property-card__payment">{{ property.metafields.property.payment_plan.value }}</span>
+      {% endif %}
+    </div>
+
+    {% comment %} Call to action {% endcomment %}
+    <div class="property-card__actions">
+      <a href="{{ property.url }}" class="btn btn--secondary property-card__btn">
+        {{ 'properties.view_details' | t }}
+      </a>
+      {% if property.metafields.property.contact_agent %}
+        <button type="button" class="btn btn--outline property-card__contact" data-property-id="{{ property.id }}">
+          {{ 'properties.contact_agent' | t }}
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</div>
